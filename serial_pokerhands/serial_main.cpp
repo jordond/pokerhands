@@ -9,16 +9,20 @@ int main() {
         std::cout << "Suit: " << c.getSuit() << " Rank: " << c.getRank() << " SIZE: " << test.getDeckSize() << std::endl;
     }*/
 
+    //DEBUG
     Deck d;
     int hands = 0;
     //get 100 hands
-    std::cin;
-    for (int i = 0; i < 1000; ++i){
+    int t;
+    std::cin >> t;
+    for (int i = 0; i < t; ++i){
         Hand h;
         h.createHand(d);
         hands++;
         std::cout << "Hand created: " << h.test << std::endl;
     }
     
+    std::cout << "Hands Drawn: " << hands << " Decks drawn: " << d.getDecksCreated() << std::endl;
+    //GUBED
     return 0;
 }

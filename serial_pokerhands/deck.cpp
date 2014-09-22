@@ -8,7 +8,10 @@ Deck::Deck() : size_(MAX_DECK_SIZE) {
             cards_.push_back(c);
         }
     }
+    #if _DEBUG
     std::cout << "New Deck created." << std::endl;
+    #endif
+    decksCreated_++;
     shuffle();
 }
 
@@ -27,4 +30,8 @@ Card Deck::draw() {
         Card c;
         return c;
     }
+}
+
+void Deck::setDecksCreated(int d) {
+    decksCreated_ = d;
 }

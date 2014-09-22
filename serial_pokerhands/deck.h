@@ -26,7 +26,10 @@ public:
     // Obtain the current number of cards in the deck.
     // Returns: int - size of deck
     int getDeckSize() { return size_; }
+
     int getDecksCreated() { return decksCreated_; }
+    void setDecksCreated(int d);
+
     // Draw a card from the top of the deck, and remove it
     // from the deck.
     // Returns: Card - card on the top of deck
