@@ -12,12 +12,13 @@ private:
 
     static const int MAX_DECK_SIZE = 52;
     int size_;
-    int decksCreated_;
+    int decks_;
 
 public:
     Deck();
     ~Deck();
 
+    void create();
     std::vector<Card> getDeck() { return cards_; }
 
     // Shuffles the deck of cards
@@ -27,8 +28,7 @@ public:
     // Returns: int - size of deck
     int getDeckSize() { return size_; }
 
-    int getDecksCreated() { return decksCreated_; }
-    void setDecksCreated(int d);
+    int getDecks() { return decks_; }
 
     // Draw a card from the top of the deck, and remove it
     // from the deck.

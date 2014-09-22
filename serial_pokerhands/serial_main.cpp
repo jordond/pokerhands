@@ -22,7 +22,7 @@ int main() {
         std::cout << "Hand created: " << h.test << std::endl;
     }
     
-    std::cout << "Hands Drawn: " << hands << " Decks drawn: " << d.getDecksCreated() << std::endl;
+    std::cout << "Hands Drawn: " << hands << " Decks drawn: " << d.getDecks() << std::endl;
     //GUBED
     return 0;
 }

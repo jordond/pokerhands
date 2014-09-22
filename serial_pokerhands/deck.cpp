@@ -1,21 +1,28 @@
 #include "deck.h"
 
-Deck::Deck() : size_(MAX_DECK_SIZE) {
+Deck::Deck() : size_(0), decks_(0) {
+    Deck::create();
+}
+
+Deck::~Deck() {}
+
+void Deck::create() {
+    cards_.clear();
     for (int i = 0; i < 13; ++i) {
         for (int j = 0; j < 4; ++j) {
             Card c;
             c.createCard(c.SUITS[j], c.RANKS[i]);
             cards_.push_back(c);
+            size_++;
+
         }
     }
     #if _DEBUG
     std::cout << "New Deck created." << std::endl;
     #endif
-    decksCreated_++;
+    decks_++;
     shuffle();
 }
-
-Deck::~Deck() {}
 
 void Deck::shuffle() {
     std::random_shuffle(&cards_[0], &cards_[MAX_DECK_SIZE - 1]);
@@ -30,8 +37,4 @@ Card Deck::draw() {
         Card c;
         return c;
     }
-}
-
-void Deck::setDecksCreated(int d) {
-    decksCreated_ = d;
 }

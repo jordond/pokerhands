@@ -13,9 +13,7 @@ void Hand::createHand(Deck &d) {
         }
         else {
             std::cout << "Deck is empty..." << std::endl;
-            Deck n;
-            n.setDecksCreated(d.getDecksCreated());
-            d = n;
+            d.create();
             i--;
         }
     }
