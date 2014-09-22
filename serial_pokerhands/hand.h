@@ -14,6 +14,7 @@ public:
 
     std::string test;
     void createHand(Deck&);
+
 };
 
 #endif
