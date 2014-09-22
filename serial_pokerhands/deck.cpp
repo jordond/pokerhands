@@ -14,7 +14,6 @@ void Deck::create() {
             c.createCard(c.SUITS[j], c.RANKS[i]);
             cards_.push_back(c);
             size_++;
-
         }
     }
     #if _DEBUG
