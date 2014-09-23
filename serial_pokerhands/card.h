@@ -3,7 +3,7 @@
 
 #include <string>
 
-enum class Suit { Diamonds = 1, Hearts, Clubs, Spades };
+enum class Suit { Diamonds = 0, Hearts = 1, Clubs = 2, Spades = 3};
 
 class Card {
 private:
@@ -13,6 +13,7 @@ private:
 public:
     Card();
     Card(int s, int r);
+    ~Card() {}
 
     static const int SUITS[4];
     static const int RANKS[13];

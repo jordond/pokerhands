@@ -9,14 +9,16 @@ private:
     static const int HAND_SIZE = 5;
 
     std::vector<Card> hand_;
+    int type_;
 
 public:
     Hand();
+    ~Hand();
 
     void create(Deck&);
-    void analyze();
+    int analyze();
     std::string readable();
-
+    int type() { return type_; }
     friend bool operator<(Card& lhs, Card& rhs);
 };
 
