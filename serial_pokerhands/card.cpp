@@ -13,7 +13,7 @@ void Card::createCard(int s, int r) {
     Card::_rank = r;
 }
 
-std::string Card::getSuit(int s) {
+std::string Card::suit(int s) {
     switch (s)
     {
     case (int)Suit::Diamonds:
@@ -29,7 +29,7 @@ std::string Card::getSuit(int s) {
     }
 }
 
-std::string Card::getRank(int r) {
+std::string Card::rank(int r) {
     switch (r)
     {
     case 1:

@@ -20,10 +20,10 @@ public:
     // Accepts: int Suit, int Rank
     void createCard(int s, int r);
 
-    int getSuit() { return _suit; }
-    int getRank() { return _rank; }
-    std::string getSuit(int);
-    std::string getRank(int);
+    int suit() { return _suit; }
+    int rank() { return _rank; }
+    std::string suit(int);
+    std::string rank(int);
 
 };
 
