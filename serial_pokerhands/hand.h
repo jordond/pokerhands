@@ -13,9 +13,9 @@ private:
 public:
     Hand();
 
-    void createHand(Deck&);
-    void analyzeHand();
-    std::string readableHand();
+    void create(Deck&);
+    void analyze();
+    std::string readable();
 };
 
 #endif

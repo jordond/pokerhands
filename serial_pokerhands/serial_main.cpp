@@ -17,9 +17,9 @@ int main() {
     std::cin >> t;
     for (int i = 0; i < t; ++i){
         Hand h;
-        h.createHand(d);
+        h.create(d);
         hands++;
-        std::cout << "Hand created: " << h.readableHand() << std::endl;
+        std::cout << "Hand created: " << h.readable() << std::endl;
     }
     
     std::cout << "Hands Drawn: " << hands << " Decks drawn: " << d.getDecks() << std::endl;

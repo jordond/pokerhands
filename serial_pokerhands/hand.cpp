@@ -4,7 +4,7 @@ Hand::Hand() {
     //todo / not needed?
 }
 
-void Hand::createHand(Deck &d) {
+void Hand::create(Deck &d) {
     for (int i = 0; i < HAND_SIZE; ++i) {
         if (d.getDeckSize() != 0) {
             Card c = d.draw();
@@ -20,11 +20,11 @@ void Hand::createHand(Deck &d) {
     }
 }
 
-void Hand::analyzeHand() {
+void Hand::analyze() {
     //todo
 }
 
-std::string Hand::readableHand() {
+std::string Hand::readable() {
     std::stringstream ss;
     for (std::vector<Card>::iterator it = hand_.begin(); it != hand_.end(); ++it) {
         int s = it->suit();
