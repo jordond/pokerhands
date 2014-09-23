@@ -18,10 +18,12 @@ void Hand::create(Deck &d) {
             i--;
         }
     }
+    Hand::analyze();
 }
 
 void Hand::analyze() {
     //todo
+    std::sort(hand_.begin(), hand_.end());
 }
 
 std::string Hand::readable() {
@@ -32,4 +34,8 @@ std::string Hand::readable() {
         ss << it->suit(s) << it->rank(r);
     }
     return ss.str();
+}
+
+bool operator<(Card& lhs, Card& rhs) {
+    return lhs.rank() < rhs.rank();
 }

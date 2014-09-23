@@ -16,6 +16,8 @@ public:
     void create(Deck&);
     void analyze();
     std::string readable();
+
+    friend bool operator<(Card& lhs, Card& rhs);
 };
 
 #endif
