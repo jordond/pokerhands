@@ -1,20 +1,21 @@
 #ifndef HAND_H
 #define HAND_H
 
+#include <sstream>
 #include "deck.h"
 
 class Hand {
 private:
     static const int HAND_SIZE = 5;
 
-    std::vector<Card> _hand;
+    std::vector<Card> hand_;
 
 public:
     Hand();
 
-    std::string test;
     void createHand(Deck&);
-
+    void analyzeHand();
+    std::string readableHand();
 };
 
 #endif

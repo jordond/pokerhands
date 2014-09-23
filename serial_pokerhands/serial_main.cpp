@@ -19,7 +19,7 @@ int main() {
         Hand h;
         h.createHand(d);
         hands++;
-        std::cout << "Hand created: " << h.test << std::endl;
+        std::cout << "Hand created: " << h.readableHand() << std::endl;
     }
     
     std::cout << "Hands Drawn: " << hands << " Decks drawn: " << d.getDecks() << std::endl;
