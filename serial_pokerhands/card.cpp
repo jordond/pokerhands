@@ -3,14 +3,16 @@
 const int Card::SUITS[4] = { (int) Suit::Diamonds, (int) Suit::Hearts, (int) Suit::Clubs, (int) Suit::Spades };
 const int Card::RANKS[13] = { 1,2,3,4,5,6,7,8,9,10,11,12,13 };
 
-Card::Card() {
-    Card::_suit = -1;
-    Card::_rank = -1;
+Card::Card() : suit_(-1), rank_(-1) {}
+
+Card::Card(int s, int r) : suit_(s), rank_(r) {}
+
+int Card::suit() {
+    return suit_;
 }
 
-void Card::createCard(int s, int r) {
-    Card::_suit = s;
-    Card::_rank = r;
+int Card::rank() {
+    return rank_;
 }
 
 std::string Card::suit(int s) {

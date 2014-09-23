@@ -22,8 +22,8 @@ void Hand::create(Deck &d) {
 }
 
 void Hand::analyze() {
-    //todo
     std::sort(hand_.begin(), hand_.end());
+    //todo - finish
 }
 
 std::string Hand::readable() {

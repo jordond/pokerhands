@@ -10,8 +10,7 @@ void Deck::create() {
     cards_.clear();
     for (int i = 0; i < 13; ++i) {
         for (int j = 0; j < 4; ++j) {
-            Card c;
-            c.createCard(c.SUITS[j], c.RANKS[i]);
+            Card c = Card(c.SUITS[j], c.RANKS[i]);
             cards_.push_back(c);
             size_++;
         }
@@ -33,7 +32,6 @@ Card Deck::draw() {
         return cards_[size_];
     }
     else {
-        Card c;
-        return c;
+        return Card();
     }
 }

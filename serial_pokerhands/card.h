@@ -7,11 +7,12 @@ enum class Suit { Diamonds = 1, Hearts, Clubs, Spades };
 
 class Card {
 private:
-    int _suit;
-    int _rank;
+    int suit_;
+    int rank_;
 
 public:
     Card();
+    Card(int s, int r);
 
     static const int SUITS[4];
     static const int RANKS[13];
@@ -20,8 +21,8 @@ public:
     // Accepts: int Suit, int Rank
     void createCard(int s, int r);
 
-    int suit() { return _suit; }
-    int rank() { return _rank; }
+    int suit();
+    int rank();
     std::string suit(int);
     std::string rank(int);
 
