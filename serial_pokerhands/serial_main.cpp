@@ -3,6 +3,7 @@
 int main() {
     ////DEBUG
     Deck d;
+    Stats s;
     int hands_ = 0;
 
     // 0 - Diamond
@@ -40,7 +41,7 @@ int main() {
         Hand test = Hand(*it);
         hands_++;
         if (test.type() != Hand::None)
-            std::cout << test.readable() << " contains a " << test.readableType() << std::endl;
+            std::cout << test.readable() << " contains a " << s.typeToString(test.type()) << std::endl;
         else
             std::cout << test.readable() << " doesn't contain valid hand" << std::endl;
     }

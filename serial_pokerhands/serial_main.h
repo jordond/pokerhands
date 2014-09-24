@@ -2,6 +2,6 @@
 #define SERIAL_MAIN_H
 
 #include "deck.h"
-#include "hand.h"
+#include "stats.h"
 
 #endif

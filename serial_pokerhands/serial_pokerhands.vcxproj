@@ -80,12 +80,14 @@
     <ClInclude Include="deck.h" />
     <ClInclude Include="hand.h" />
     <ClInclude Include="serial_main.h" />
+    <ClInclude Include="stats.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="card.cpp" />
     <ClCompile Include="deck.cpp" />
     <ClCompile Include="hand.cpp" />
     <ClCompile Include="serial_main.cpp" />
+    <ClCompile Include="stats.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

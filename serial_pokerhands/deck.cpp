@@ -17,7 +17,6 @@ void Deck::create() {
             size_++;
         }
     }
-    //std::cout << "New Deck created." << std::endl;
     decks_++;
     shuffle();
 }

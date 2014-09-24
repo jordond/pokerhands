@@ -94,33 +94,6 @@ std::string Hand::readable() {
     return ss.str();
 }
 
-std::string Hand::readableType() {
-    switch (type_) {
-    case Hand::RoyalFlush:
-        return "Royal Flush";
-    case Hand::StraightFlush:
-        return "Straight Flush";
-    case Hand::FourKind:
-        return "Four of a Kind";
-    case Hand::FullHouse:
-        return "Full House";
-    case Hand::Flush:
-        return "Flush";
-    case Hand::Straight:
-        return "Straight";
-    case Hand::ThreeKind:
-        return "Three of a Kind";
-    case Hand::TwoPair:
-        return "Two pairs";
-    case Hand::OnePair:
-        return "One Pair";
-    case Hand::NoPair:
-        return "High Card/No Pair";
-    default:
-        return "Invalid";
-    }
-}
-
 bool operator<(Card& lhs, Card& rhs) {
     return lhs.rank() < rhs.rank();
 }

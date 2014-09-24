@@ -22,7 +22,6 @@ public:
 
     int analyze();
     std::string readable();
-    std::string readableType();
 
     int handSize() { return HAND_SIZE; }
     void handSize(int h) { HAND_SIZE = h; }
