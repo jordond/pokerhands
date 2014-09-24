@@ -27,7 +27,7 @@ public:
     Deck();
     ~Deck();
 
-    enum HandType { NoPair = 0, OnePair, TwoPair, ThreeKind, Straight, Flush, FullHouse, FourKind, StraightFlush, RoyalFlush };
+    enum HandType { Invalid = -2, None = -1, NoPair = 0, OnePair, TwoPair, ThreeKind, Straight, Flush, FullHouse, FourKind, StraightFlush, RoyalFlush };
 
     void create();
     std::vector<Card> getDeck() { return cards_; }

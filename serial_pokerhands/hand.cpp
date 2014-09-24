@@ -1,12 +1,8 @@
 #include "hand.h"
 
-Hand::Hand() : type_(Deck::NoPair) {}
+Hand::Hand() : type_(Deck::None) {}
 
-Hand::~Hand() {}
-
-void Hand::create(Deck &d) {
-    hand_.clear();
-    type_ = Deck::NoPair;
+Hand::Hand(Deck &d) : type_(Deck::None) {
     for (int i = 0; i < HAND_SIZE; ++i) {
         if (d.getDeckSize() != 0) {
             Card c = d.draw();
@@ -21,17 +17,19 @@ void Hand::create(Deck &d) {
     type_ = Hand::analyze();
 }
 
-int Hand::create(int r[]) {
-    if (sizeof(r) / sizeof(*r) != HAND_SIZE) {
-        return -1;
+Hand::Hand(int r []) : type_(Deck::None) {
+    if (sizeof(r) / sizeof(*r) == HAND_SIZE) {
+        for (int i = 0; i < HAND_SIZE; i += 2) {
+            Card c = Card(r[i], r[i + 1]);
+            hand_.push_back(c);
+        }    
     }
-
-    hand_.clear();
-    for (int i = 0; i < HAND_SIZE; i+=2) {
-        Card c = Card(r[i], r[i + 1]);
-        hand_.push_back(c);
+    else {
+        type_ = Deck::Invalid;
     }
 }
+
+Hand::~Hand() {}
 
 int Hand::analyze() {
     bool pair = false, pair2 = false, three = false, four = false, flush = false, strt = false, rflush = false;
