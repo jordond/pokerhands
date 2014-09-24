@@ -4,11 +4,20 @@
 #include <vector>
 #include <algorithm>
 #include <iostream>
+#include <ctime>
+#include <cstdlib>
 #include "card.h"
+
+struct Stats {
+    std::string Type;
+    double Frequency;
+    double Relative;
+};
 
 class Deck {
 private:
     std::vector<Card> cards_;
+    Stats stats_[10];
 
     static const int MAX_DECK_SIZE = 52;
     int size_;
@@ -17,6 +26,7 @@ private:
 public:
     Deck();
     ~Deck();
+
 
     void create();
     std::vector<Card> getDeck() { return cards_; }

@@ -1,20 +1,109 @@
 #include "hand.h"
 
-Hand::Hand() {
+Hand::Hand() : type_(HandType::None) {}
 
-}
-
-void Hand::createHand(Deck &d) {
+Hand::Hand(Deck &d) : type_(HandType::None) {
     for (int i = 0; i < HAND_SIZE; ++i) {
         if (d.getDeckSize() != 0) {
             Card c = d.draw();
-            test.append(c.getSuit() + c.getRank() + ", ");
-            _hand.push_back(c);
+            hand_.push_back(c);
         }
         else {
-            std::cout << "Deck is empty..." << std::endl;
+            //std::cout << "Deck is empty..." << std::endl;
             d.create();
             i--;
         }
     }
+    type_ = Hand::analyze();
+}
+
+Hand::Hand(std::array<int, HAND_SIZE * 2>r) : type_(HandType::None) {
+    for (int i = 0; i < HAND_SIZE * 2; i += 2) {
+        Card c = Card(r[i], r[i + 1]);
+        hand_.push_back(c);
+    }    
+}
+
+Hand::~Hand() {}
+
+int Hand::analyze() {
+    bool pair = false, pair2 = false, three = false, four = false, flush = false, strt = false, rflush = false;
+    int rank[14] = {0}; //13 ranks, low + high ace = 14
+    int suit[4] = {0};
+    for (std::vector<Card>::iterator it = hand_.begin(); it != hand_.end(); ++it) {
+        rank[it->rank() - 1]++; // rank starts at 1 not 0
+        suit[it->suit()]++;
+    }
+    //check for ace high
+    rank[13] = (rank[0] > 0) ? rank[0] : 0;
+
+    //one pair, two pair, 3kind, 4kind 
+    for (int i = 0; i < 13; ++i){
+        switch (rank[i]) {
+        case 2:
+            if (pair) 
+                pair2 = true;
+            else
+                pair = true;
+            break;
+        case 3:
+            three = true;
+            break;
+        case 4:
+            four = true;
+        }
+    }
+    //flush
+    for (int i = 0; i < 4; ++i) {
+        if (suit[i] == 5) {
+            flush = true;
+            break;
+        }
+    }
+    //straight
+    if (!pair && !pair2 && !three && !four) {
+        int r = 0; //run count
+        for (int i = 0; i < 14; ++i) {
+            if (rank[i] == 1) {
+                r++;
+            } else {
+                r = 0;
+            }
+            if (r == 5) {
+                strt = true;
+                break;
+            }
+        }        
+    }
+    //royal - 10, j=11, q=12, k=13, a=14 flush
+    if (flush && strt) {
+        if (rank[14] == 1 && rank[13] == 1 && rank[12] == 1 && rank[11] == 1 && rank[10] == 1) {
+            rflush = true;
+        }
+    }
+
+    if (rflush)             return HandType::RoyalFlush;
+    else if (flush && strt) return HandType::StraightFlush;
+    else if (four)          return HandType::FourKind;
+    else if (pair && three) return HandType::FullHouse;
+    else if (flush)         return HandType::Flush;
+    else if (strt)          return HandType::Straight;
+    else if (three)         return HandType::ThreeKind;
+    else if (pair && pair2) return HandType::TwoPair;
+    else if (pair)          return HandType::OnePair;
+    return HandType::NoPair;
+}
+
+std::string Hand::readable() {
+    std::stringstream ss;
+    for (std::vector<Card>::iterator it = hand_.begin(); it != hand_.end(); ++it) {
+        int s = it->suit();
+        int r = it->rank();
+        ss << it->suit(s) << it->rank(r);
+    }
+    return ss.str();
+}
+
+bool operator<(Card& lhs, Card& rhs) {
+    return lhs.rank() < rhs.rank();
 }

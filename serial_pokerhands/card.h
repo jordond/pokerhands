@@ -3,23 +3,30 @@
 
 #include <string>
 
+enum class Suit { Diamonds = 0, Hearts = 1, Clubs = 2, Spades = 3};
+
 class Card {
 private:
-    std::string _suit;
-    std::string _rank;
+    int suit_;
+    int rank_;
 
 public:
     Card();
+    Card(int s, int r);
+    ~Card() {}
 
-    static const std::string SUITS[4];
-    static const std::string RANKS[13];
+    static const int SUITS[4];
+    static const int RANKS[13];
     
     // Sets the current card information based on the passed in arguments.
-    // Accepts: std::string Suit, std::string Rank
-    void createCard(std::string, std::string);
+    // Accepts: int Suit, int Rank
+    void createCard(int s, int r);
 
-    std::string getSuit() { return _suit; }
-    std::string getRank() { return _rank; }
+    int suit();
+    int rank();
+    std::string suit(int);
+    std::string rank(int);
+
 };
 
 #endif

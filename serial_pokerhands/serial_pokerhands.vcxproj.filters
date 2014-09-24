@@ -16,16 +16,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="card.h">
-      <Filter>Resource Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="deck.h">
-      <Filter>Resource Files</Filter>
-    </ClInclude>
-    <ClInclude Include="serial_main.h">
-      <Filter>Resource Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="hand.h">
-      <Filter>Resource Files</Filter>
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="serial_main.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
