@@ -1,6 +1,7 @@
 #include "deck.h"
 
 Deck::Deck() : size_(0), decks_(0) {
+    std::srand(unsigned(std::time(NULL)));
     Deck::stats_[0].Type = "No Pair";
     Deck::stats_[1].Type = "One Pair";
     Deck::stats_[2].Type = "Two Pair";
@@ -31,8 +32,7 @@ void Deck::create() {
     shuffle();
 }
 
-void Deck::shuffle() {
-    std::srand(unsigned(std::time(0)));
+void Deck::shuffle() {    
     std::random_shuffle(&cards_[0], &cards_[MAX_DECK_SIZE - 1]);
 }
 

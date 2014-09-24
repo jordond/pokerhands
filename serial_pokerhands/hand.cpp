@@ -37,12 +37,12 @@ int Hand::analyze() {
     }
 
     //flush
-    for (int i = 0; i < sizeof(suit); ++i) {
+    for (int i = 0; i < 4; ++i) {
         if (suit[i] == 5) {
-            test = Deck::Flush;
+            handType = Deck::Flush;
         }
     }
-    return test;
+    return handType;
 }
 
 std::string Hand::readable() {
