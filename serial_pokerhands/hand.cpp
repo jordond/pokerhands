@@ -21,7 +21,8 @@ Hand::Hand(std::array<int, HAND_SIZE * 2>r) : type_(HandType::None) {
     for (int i = 0; i < HAND_SIZE * 2; i += 2) {
         Card c = Card(r[i], r[i + 1]);
         hand_.push_back(c);
-    }    
+    }
+    type_ = Hand::analyze();
 }
 
 Hand::~Hand() {}
@@ -77,20 +78,20 @@ int Hand::analyze() {
     }
     //royal - 10, j=11, q=12, k=13, a=14 flush
     if (flush && strt) {
-        if (rank[14] == 1 && rank[13] == 1 && rank[12] == 1 && rank[11] == 1 && rank[10] == 1) {
+        if (rank[9] == 1 && rank[10] == 1 && rank[11] == 1 && rank[12] == 1 && rank[13] == 1) {
             rflush = true;
         }
     }
 
-    if (rflush)             return HandType::RoyalFlush;
-    else if (flush && strt) return HandType::StraightFlush;
-    else if (four)          return HandType::FourKind;
-    else if (pair && three) return HandType::FullHouse;
-    else if (flush)         return HandType::Flush;
-    else if (strt)          return HandType::Straight;
-    else if (three)         return HandType::ThreeKind;
-    else if (pair && pair2) return HandType::TwoPair;
-    else if (pair)          return HandType::OnePair;
+    if (rflush)             return Hand::RoyalFlush;
+    else if (flush && strt) return Hand::StraightFlush;
+    else if (four)          return Hand::FourKind;
+    else if (pair && three) return Hand::FullHouse;
+    else if (flush)         return Hand::Flush;
+    else if (strt)          return Hand::Straight;
+    else if (three)         return Hand::ThreeKind;
+    else if (pair && pair2) return Hand::TwoPair;
+    else if (pair)          return Hand::OnePair;
     return HandType::NoPair;
 }
 
@@ -99,9 +100,36 @@ std::string Hand::readable() {
     for (std::vector<Card>::iterator it = hand_.begin(); it != hand_.end(); ++it) {
         int s = it->suit();
         int r = it->rank();
-        ss << it->suit(s) << it->rank(r);
+        ss << "[" << it->suit(s) << it->rank(r) << "] ";
     }
     return ss.str();
+}
+
+std::string Hand::readableType() {
+    switch (type_) {
+    case Hand::RoyalFlush:
+        return "Royal Flush";
+    case Hand::StraightFlush:
+        return "Straight Flush";
+    case Hand::FourKind:
+        return "Four of a Kind";
+    case Hand::FullHouse:
+        return "Full House";
+    case Hand::Flush:
+        return "Flush";
+    case Hand::Straight:
+        return "Straight";
+    case Hand::ThreeKind:
+        return "Three of a Kind";
+    case Hand::TwoPair:
+        return "Two pairs";
+    case Hand::OnePair:
+        return "One Pair";
+    case Hand::NoPair:
+        return "High Card/No Pair";
+    default:
+        return "Invalid";
+    }
 }
 
 bool operator<(Card& lhs, Card& rhs) {

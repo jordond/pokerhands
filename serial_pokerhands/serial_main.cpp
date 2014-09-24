@@ -3,7 +3,7 @@
 int main() {
     //DEBUG
     Deck d;
-    int hands = 0;
+    int hands_ = 0;
 
     // 0 - Diamond
     // 1 - Heart
@@ -14,38 +14,38 @@ int main() {
     // 13 - King
     // 1  - Ace
 
-    std::array<int,10> pair = { 0,1, 1,1, 2,2, 3,3, 3,4 };
-    Hand hpair = Hand(pair);
-    if (hpair.analyze() == Hand::OnePair) {
-        std::cout << "Hand: " << hpair.readable() << " contains One Pair." << std::endl;
-    }
-    else {
-        std::cout << "One Pair failed." << std::endl;
+    std::vector< std::array<int, 10> > hands;
+    std::array<int, 10> npair =     { 0,1, 1,5, 2,4, 3,8, 3,9 }; //no pair
+    hands.push_back(npair);
+    std::array<int, 10> pair =      { 0,1, 1,1, 2,2, 3,3, 3,4 }; //pair
+    hands.push_back(pair);
+    std::array<int, 10> pair2 =     { 0,1, 1,1, 2,2, 3,2, 3,4 }; //2 pair
+    hands.push_back(pair2);
+    std::array<int, 10> k3 =        { 0,1, 1,1, 2,1, 3,2, 3,4 }; //3 kind
+    hands.push_back(k3);
+    std::array<int, 10> strt =      { 0,1, 0,2, 1,3, 2,4, 3,5 }; //straight
+    hands.push_back(strt);
+    std::array<int, 10> flush =     { 0,1, 0,5, 0,6, 0,2, 0,9 }; //flush
+    hands.push_back(flush);
+    std::array<int, 10> fh =        { 1,1, 1,1, 1,4, 2,4, 3,4 }; //fullhouse
+    hands.push_back(fh);
+    std::array<int, 10> k4 =        { 0,1, 1,1, 2,1, 3,1, 3,4 }; //4kind
+    hands.push_back(k4);
+    std::array<int, 10> strtflush = { 0,1, 0,2, 0,3, 0,4, 0,5 }; //straight flush
+    hands.push_back(strtflush);
+    std::array<int, 10> royal =     { 0,1, 0,10, 0,11, 0,12, 0,13 }; //royal
+    hands.push_back(royal);
+
+    for (std::vector<std::array<int, 10>>::iterator it = hands.begin(); it != hands.end(); ++it) {
+        Hand test = Hand(*it);
+        hands_++;
+        if (test.type() != Hand::None)
+            std::cout << test.readable() << " contains a " << test.readableType() << std::endl;
+        else
+            std::cout << test.readable() << " doesn't contain valid hand" << std::endl;
     }
 
-    //get 100 hands
-    //int t;
-    //int flushs = 0;
-    //std::cin >> t;
-    //for (int i = 0; i < t; ++i){
-    //    Hand h = Hand(d);
-    //    if (h.type() == d.Flush) {
-    //        //std::cout << h.readable() << std::endl;
-    //        std::cout << "Hand number: " << hands << std::endl;
-    //        flushs++;
-    //    }
-    //    hands++;
-    //    //std::cout << "Hand created: " << h.readable() << std::endl;
-    //}
-    /*Hand h;
-    do {
-        h.create(d);
-        hands++;
-    } while (h.type() != d.Flush);*/
-    //std::string sdds = h.readable();
-    //std::cout << "Totals Flushs: " << flushs << std::endl;
-    //std::cout << "Flush hand: " << h.readable() << std::endl;
-    std::cout << "Hands Drawn: " << hands << " Decks drawn: " << d.getDecks() << std::endl;
-    //GUBED
+    std::cout << "Hands Drawn: " << hands_ << " Decks drawn: " << d.getDecks() << std::endl;
+    
     return 0;
 }

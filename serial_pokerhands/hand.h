@@ -20,6 +20,7 @@ public:
 
     int analyze();
     std::string readable();
+    std::string readableType();
     int type() { return type_; }
     void type(int t) { type_ = t; }
 
