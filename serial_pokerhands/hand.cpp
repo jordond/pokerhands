@@ -1,8 +1,8 @@
 #include "hand.h"
 
-Hand::Hand() : type_(Deck::None) {}
+Hand::Hand() : type_(HandType::None) {}
 
-Hand::Hand(Deck &d) : type_(Deck::None) {
+Hand::Hand(Deck &d) : type_(HandType::None) {
     for (int i = 0; i < HAND_SIZE; ++i) {
         if (d.getDeckSize() != 0) {
             Card c = d.draw();
@@ -17,16 +17,11 @@ Hand::Hand(Deck &d) : type_(Deck::None) {
     type_ = Hand::analyze();
 }
 
-Hand::Hand(int r []) : type_(Deck::None) {
-    if (sizeof(r) / sizeof(*r) == HAND_SIZE) {
-        for (int i = 0; i < HAND_SIZE; i += 2) {
-            Card c = Card(r[i], r[i + 1]);
-            hand_.push_back(c);
-        }    
-    }
-    else {
-        type_ = Deck::Invalid;
-    }
+Hand::Hand(std::array<int, HAND_SIZE * 2>r) : type_(HandType::None) {
+    for (int i = 0; i < HAND_SIZE * 2; i += 2) {
+        Card c = Card(r[i], r[i + 1]);
+        hand_.push_back(c);
+    }    
 }
 
 Hand::~Hand() {}
@@ -87,16 +82,16 @@ int Hand::analyze() {
         }
     }
 
-    if (rflush)             return Deck::RoyalFlush;
-    else if (flush && strt) return Deck::StraightFlush;
-    else if (four)          return Deck::FourKind;
-    else if (pair && three) return Deck::FullHouse;
-    else if (flush)         return Deck::Flush;
-    else if (strt)          return Deck::Straight;
-    else if (three)         return Deck::ThreeKind;
-    else if (pair && pair2) return Deck::TwoPair;
-    else if (pair)          return Deck::OnePair;
-    return Deck::NoPair;
+    if (rflush)             return HandType::RoyalFlush;
+    else if (flush && strt) return HandType::StraightFlush;
+    else if (four)          return HandType::FourKind;
+    else if (pair && three) return HandType::FullHouse;
+    else if (flush)         return HandType::Flush;
+    else if (strt)          return HandType::Straight;
+    else if (three)         return HandType::ThreeKind;
+    else if (pair && pair2) return HandType::TwoPair;
+    else if (pair)          return HandType::OnePair;
+    return HandType::NoPair;
 }
 
 std::string Hand::readable() {

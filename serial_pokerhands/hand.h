@@ -2,6 +2,7 @@
 #define HAND_H
 
 #include <sstream>
+#include <array>
 #include "deck.h"
 
 class Hand {
@@ -14,12 +15,16 @@ private:
 public:
     Hand();
     Hand(Deck&);
-    Hand(int []);
+    Hand(std::array<int, HAND_SIZE * 2>);
     ~Hand();
 
     int analyze();
     std::string readable();
     int type() { return type_; }
+    void type(int t) { type_ = t; }
+
+    enum HandType { Invalid = -2, None = -1, NoPair = 0, OnePair, TwoPair, ThreeKind, Straight, Flush, FullHouse, FourKind, StraightFlush, RoyalFlush };
+    
     friend bool operator<(Card& lhs, Card& rhs);
 };
 
