@@ -33,10 +33,9 @@ int Hand::analyze() {
         rank[it->rank() - 1]++; // rank starts at 1 not 0
         suit[it->suit()]++;
     }
-    //check for ace
-    if (rank[0] > 0) {
-        rank[13] = rank[0];
-    }
+    //check for ace high
+    rank[13] = (rank[0] > 0) ? rank[0] : 0;
+
     //one pair, two pair, 3kind, 4kind 
     for (int i = 0; i < 13; ++i){
         switch (rank[i]) {
@@ -62,17 +61,26 @@ int Hand::analyze() {
     }
     //straight
     if (!pair && !pair2 && !three && !four) {
-        int r = 0;
+        int r = 0; //run count
         for (int i = 0; i < 14; ++i) {
             if (rank[i] == 1) {
                 r++;
             } else {
                 r = 0;
             }
-            if (r == 5)
+            if (r == 5) {
+                strt = true;
                 break;
+            }
+        }        
+    }
+    //royal - 10, j=11, q=12, k=13, a=14 flush
+    if (flush && strt) {
+        if (rank[14] == 1 && rank[13] == 1 && rank[12] == 1 && rank[11] == 1 && rank[10] == 1) {
+            rflush = true;
         }
     }
+
     if (rflush)             return Deck::RoyalFlush;
     else if (flush && strt) return Deck::StraightFlush;
     else if (four)          return Deck::FourKind;
