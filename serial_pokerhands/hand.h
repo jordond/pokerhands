@@ -16,6 +16,7 @@ public:
     ~Hand();
 
     void create(Deck&);
+    int create(int []);
     int analyze();
     std::string readable();
     int type() { return type_; }

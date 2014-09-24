@@ -21,9 +21,17 @@ void Hand::create(Deck &d) {
     type_ = Hand::analyze();
 }
 
-//void Hand::create(Deck &d) {
-//    
-//}
+int Hand::create(int r[]) {
+    if (sizeof(r) / sizeof(*r) != HAND_SIZE) {
+        return -1;
+    }
+
+    hand_.clear();
+    for (int i = 0; i < HAND_SIZE; i+=2) {
+        Card c = Card(r[i], r[i + 1]);
+        hand_.push_back(c);
+    }
+}
 
 int Hand::analyze() {
     bool pair = false, pair2 = false, three = false, four = false, flush = false, strt = false, rflush = false;
