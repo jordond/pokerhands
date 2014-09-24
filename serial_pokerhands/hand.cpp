@@ -29,17 +29,22 @@ int Hand::analyze() {
     //std::sort(hand_.begin(), hand_.end());
     int handType = Deck::HandType::NoPair;
     int test = 1;
-    int rank[13] = {0};
+    int rank[14] = {0}; //13 ranks, low + high ace = 14
     int suit[4] = {0};
     for (std::vector<Card>::iterator it = hand_.begin(); it != hand_.end(); ++it) {
         rank[it->rank() - 1]++;
         suit[it->suit()]++;
+    }
+    //check for ace
+    if (rank[0] > 0) {
+        rank[13] = rank[0];
     }
 
     //flush
     for (int i = 0; i < 4; ++i) {
         if (suit[i] == 5) {
             handType = Deck::Flush;
+            break;
         }
     }
     return handType;
