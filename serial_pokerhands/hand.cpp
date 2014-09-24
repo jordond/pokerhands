@@ -2,23 +2,8 @@
 
 Hand::Hand() : type_(HandType::None) {}
 
-Hand::Hand(Deck &d) : type_(HandType::None) {
-    for (int i = 0; i < HAND_SIZE; ++i) {
-        if (d.getDeckSize() != 0) {
-            Card c = d.draw();
-            hand_.push_back(c);
-        }
-        else {
-            //std::cout << "Deck is empty..." << std::endl;
-            d.create();
-            i--;
-        }
-    }
-    type_ = Hand::analyze();
-}
-
-Hand::Hand(std::array<int, HAND_SIZE * 2>r) : type_(HandType::None) {
-    for (int i = 0; i < HAND_SIZE * 2; i += 2) {
+Hand::Hand(std::array<int, 10>r) : type_(HandType::None) {
+    for (int i = 0; i < 10; i += 2) {
         Card c = Card(r[i], r[i + 1]);
         hand_.push_back(c);
     }
@@ -26,6 +11,10 @@ Hand::Hand(std::array<int, HAND_SIZE * 2>r) : type_(HandType::None) {
 }
 
 Hand::~Hand() {}
+
+void Hand::add(Card c) {
+    hand_.push_back(c);
+}
 
 int Hand::analyze() {
     bool pair = false, pair2 = false, three = false, four = false, flush = false, strt = false, rflush = false;

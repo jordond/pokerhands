@@ -2,25 +2,31 @@
 #define HAND_H
 
 #include <sstream>
+#include <vector>
 #include <array>
-#include "deck.h"
+#include "card.h"
 
 class Hand {
 private:
-    static const int HAND_SIZE = 5;
-
+    int HAND_SIZE = 5;
+    
     std::vector<Card> hand_;
     int type_;
 
 public:
     Hand();
-    Hand(Deck&);
-    Hand(std::array<int, HAND_SIZE * 2>);
+    Hand(std::array<int, 10>);
     ~Hand();
+
+    void add(Card);
 
     int analyze();
     std::string readable();
     std::string readableType();
+
+    int handSize() { return HAND_SIZE; }
+    void handSize(int h) { HAND_SIZE = h; }
+
     int type() { return type_; }
     void type(int t) { type_ = t; }
 

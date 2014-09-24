@@ -1,7 +1,7 @@
 #include "serial_main.h"
 
 int main() {
-    //DEBUG
+    ////DEBUG
     Deck d;
     int hands_ = 0;
 
