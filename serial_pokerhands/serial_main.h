@@ -4,4 +4,7 @@
 #include "deck.h"
 #include "stats.h"
 
+void debugHandType();
+void debugVariableHands();
+
 #endif

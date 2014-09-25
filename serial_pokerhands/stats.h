@@ -22,6 +22,7 @@ public:
     //printing
     void printHeader();
     void printFooter();
+    void printHands();
 
     std::string typeToString(type_t);
 

@@ -48,6 +48,13 @@ void Stats::printFooter() {
     std::cout << "-----------------------------------------------------" << std::endl;
 }
 
+void Stats::printHands() {
+    std::cout << "Hands: " << std::endl;
+    for (std::map<std::string, int>::iterator m = stats_.begin(); m != stats_.end(); ++m) {
+        std::cout << m->first << "\t\tCount: " << m->second << std::endl;
+    }
+}
+
 std::string Stats::typeToString(type_t t) {
     switch (t) {
     case HandType::RoyalFlush:
@@ -69,7 +76,7 @@ std::string Stats::typeToString(type_t t) {
     case HandType::OnePair:
         return "One Pair";
     case HandType::NoPair:
-        return "High Card/No Pair";
+        return "High Card";
     default:
         return "Invalid";
     }
