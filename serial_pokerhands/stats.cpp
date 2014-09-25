@@ -7,12 +7,13 @@ Stats::Stats() {
 Stats::~Stats() {}
 
 int Stats::getValue(int t) {
-    int val = 0;
-    std::string test = "";
-
-    test = Stats::typeToString(t);
-    
-    return 0;
+    std::string key = typeToString(t);
+    if (stats_.find(key) == stats_.end()) {
+        return -1;
+    }
+    else {
+        return stats_[key];
+    }
 }
 
 std::string Stats::typeToString(int t) {
