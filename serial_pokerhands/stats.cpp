@@ -6,8 +6,9 @@ Stats::Stats() {
 
 Stats::~Stats() {}
 
-void Stats::setValue(type_t t) {
+void Stats::increment(type_t t) {
     std::string k = typeToString(t);
+    stats_[k]++; //update or add
 }
 
 int Stats::getValue(type_t t) {
@@ -22,25 +23,25 @@ int Stats::getValue(type_t t) {
 
 std::string Stats::typeToString(type_t t) {
     switch (t) {
-    case Hand::RoyalFlush:
+    case HandType::RoyalFlush:
         return "Royal Flush";
-    case Hand::StraightFlush:
+    case HandType::StraightFlush:
         return "Straight Flush";
-    case Hand::FourKind:
+    case HandType::FourKind:
         return "Four of a Kind";
-    case Hand::FullHouse:
+    case HandType::FullHouse:
         return "Full House";
-    case Hand::Flush:
+    case HandType::Flush:
         return "Flush";
-    case Hand::Straight:
+    case HandType::Straight:
         return "Straight";
-    case Hand::ThreeKind:
+    case HandType::ThreeKind:
         return "Three of a Kind";
-    case Hand::TwoPair:
+    case HandType::TwoPair:
         return "Two pairs";
-    case Hand::OnePair:
+    case HandType::OnePair:
         return "One Pair";
-    case Hand::NoPair:
+    case HandType::NoPair:
         return "High Card/No Pair";
     default:
         return "Invalid";

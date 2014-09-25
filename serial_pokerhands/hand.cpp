@@ -16,7 +16,7 @@ void Hand::add(Card c) {
     hand_.push_back(c);
 }
 
-Hand::HandType Hand::analyze() {
+HandType Hand::analyze() {
     bool pair = false, pair2 = false, three = false, four = false, flush = false, strt = false, rflush = false;
     int rank[14] = {0}; //13 ranks, low + high ace = 14
     int suit[4] = {0};
@@ -72,15 +72,15 @@ Hand::HandType Hand::analyze() {
         }
     }
 
-    if (rflush)             return Hand::RoyalFlush;
-    else if (flush && strt) return Hand::StraightFlush;
-    else if (four)          return Hand::FourKind;
-    else if (pair && three) return Hand::FullHouse;
-    else if (flush)         return Hand::Flush;
-    else if (strt)          return Hand::Straight;
-    else if (three)         return Hand::ThreeKind;
-    else if (pair && pair2) return Hand::TwoPair;
-    else if (pair)          return Hand::OnePair;
+    if (rflush)             return HandType::RoyalFlush;
+    else if (flush && strt) return HandType::StraightFlush;
+    else if (four)          return HandType::FourKind;
+    else if (pair && three) return HandType::FullHouse;
+    else if (flush)         return HandType::Flush;
+    else if (strt)          return HandType::Straight;
+    else if (three)         return HandType::ThreeKind;
+    else if (pair && pair2) return HandType::TwoPair;
+    else if (pair)          return HandType::OnePair;
     return HandType::NoPair;
 }
 

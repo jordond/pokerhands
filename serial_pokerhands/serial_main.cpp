@@ -40,7 +40,7 @@ int main() {
     for (std::vector<std::array<int, 10>>::iterator it = hands.begin(); it != hands.end(); ++it) {
         Hand test = Hand(*it);
         hands_++;
-        if (test.type() != Hand::None)
+        if (test.type() != HandType::None)
             std::cout << test.readable() << " contains a " << s.typeToString(test.type()) << std::endl;
         else
             std::cout << test.readable() << " doesn't contain valid hand" << std::endl;
