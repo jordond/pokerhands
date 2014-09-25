@@ -15,6 +15,8 @@ public:
     void increment(type_t);
     int getValue(type_t);
 
+    bool allHandsFound();
+
     std::string typeToString(type_t);
 
 };
