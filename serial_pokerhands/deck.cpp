@@ -40,7 +40,9 @@ Hand Deck::dealHand() {
     for (int i = 0; i < h.handSize(); ++i) {
         if (size_ != 0) {
             Card c = draw();
-            h.add(c);
+            if (c.rank() != -1 && c.suit() != -1){ // invalid card returned
+                h.add(c);
+            }
         }
         else { //deck is empty
             create();
