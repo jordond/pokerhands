@@ -6,7 +6,7 @@
 #include <array>
 #include "card.h"
 
-enum class HandType { Invalid = -2, None = -1, NoPair = 0, OnePair, TwoPair, ThreeKind, Straight, Flush, FullHouse, FourKind, StraightFlush, RoyalFlush };
+enum class HandType { Invalid = -2, None = -1, HighCard = 0, OnePair, TwoPair, ThreeKind, Straight, Flush, FullHouse, FourKind, StraightFlush, RoyalFlush };
 
 class Hand {
 private:

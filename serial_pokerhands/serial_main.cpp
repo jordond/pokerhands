@@ -1,10 +1,10 @@
 #include "serial_main.h"
 
 int main() {
-    debugHandType();
+    //debugHandType();
     //debugVariableHands();
     //debug250000Hands();
-    //debugFindAllHands();
+    debugFindAllHands();
 
     return 0;
 }
@@ -99,11 +99,12 @@ void debugFindAllHands() {
     Deck d;
     Stats s;
     int count = 0;
-    std::cout << "Attempting to draw all hands..." << std::endl;
+    s.printHeader();
     do {
         Hand h = d.dealHand();
         s.increment(h.type());
         count++;
     } while (!s.allHandsFound());
-    std::cout << "It took " << count << " hands to find all types." << std::endl;
+    s.printHands();
+    s.printFooter();
 }

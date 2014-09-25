@@ -77,7 +77,7 @@ HandType Hand::analyze() {
     else if (three)         return HandType::ThreeKind;
     else if (pair && pair2) return HandType::TwoPair;
     else if (pair)          return HandType::OnePair;
-    return HandType::NoPair;
+    return HandType::HighCard;
 }
 
 std::string Hand::readable() {

@@ -1,7 +1,6 @@
 #include "stats.h"
 
-Stats::Stats() {
-    const std::string VERSION = "SERIAL";
+Stats::Stats() : hands_(0), version_("SERIAL") {
 }
 
 Stats::~Stats() {}
@@ -9,9 +8,10 @@ Stats::~Stats() {}
 void Stats::increment(type_t t) {
     std::string k = typeToString(t);
     stats_[k]++; //update or add
+    hands_++;
 }
 
-int Stats::getValue(type_t t) {
+int Stats::getTypeCount(type_t t) {
     std::string k = typeToString(t);
     if (stats_.find(k) == stats_.end()) {
         return -1;
@@ -33,25 +33,30 @@ bool Stats::allHandsFound() {
 }
 
 void Stats::printHeader() {
-    std::cout << "Poker Hand Frequency Simulation [" + VERSION + " Version]" << std::endl;
+    std::cout << "Poker Hand Frequency Simulation [" + version_ + " Version]" << std::endl;
     std::cout << "=====================================================" << std::endl;
-    std::cout << "Hand Type: " << std::endl;
+    std::cout << "Hand Type: " << "\t\tFreq: " << "\t\tRelF: " << std::endl;
 }
 
 void Stats::printFooter() {
     std::cout << "-----------------------------------------------------" << std::endl;
-    std::cout << "Hands Generated:" << std::endl;
-    std::cout << "Decks Drawn:" << std::endl;
-    std::cout << "Elapsed Time:" << std::endl;
-    if (VERSION == "PARALLEL")
+    std::cout << "Hands Generated: " << hands_ << std::endl;
+    std::cout << "Decks Drawn: " << std::endl;
+    std::cout << "Elapsed Time: " << std::endl;
+    if (version_ == "PARALLEL")
         std::cout << "Number of Processes:" << std::endl;
     std::cout << "-----------------------------------------------------" << std::endl;
 }
 
 void Stats::printHands() {
-    std::cout << "Hands: " << std::endl;
+    std::map<int, std::string> sorted;
     for (std::map<std::string, int>::iterator m = stats_.begin(); m != stats_.end(); ++m) {
-        std::cout << m->first << "\t\tCount: " << m->second << std::endl;
+        sorted[m->second] = m->first;
+    }
+    for (std::map<int, std::string>::reverse_iterator m = sorted.rbegin(); m != sorted.rend(); ++m) {
+        double relF = ((double)m->first / hands_ ) * 100;
+        std::cout << std::setprecision(6) << std::fixed;
+        std::cout << m->second << "\t\t" << m->first << "\t\t" << relF << "%" << std::endl;
     }
 }
 
@@ -75,7 +80,7 @@ std::string Stats::typeToString(type_t t) {
         return "Two pairs";
     case HandType::OnePair:
         return "One Pair";
-    case HandType::NoPair:
+    case HandType::HighCard:
         return "High Card";
     default:
         return "Invalid";
