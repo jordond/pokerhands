@@ -60,16 +60,12 @@ HandType Hand::analyze() {
                 r = 0;
             }
             if (r == 5) {
-                strt = true;
+                if (flush && rank[9] == 1 && rank[13] == 1) //royal flush
+                    rflush = true;
+                strt = true;                
                 break;
             }
         }        
-    }
-    //royal - 10, j=11, q=12, k=13, a=14 flush
-    if (flush && strt) {
-        if (rank[9] == 1 && rank[10] == 1 && rank[11] == 1 && rank[12] == 1 && rank[13] == 1) {
-            rflush = true;
-        }
     }
 
     if (rflush)             return HandType::RoyalFlush;
