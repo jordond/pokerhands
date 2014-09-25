@@ -1,7 +1,7 @@
 #include "stats.h"
 
 Stats::Stats() {
-
+    const std::string VERSION = "SERIAL";
 }
 
 Stats::~Stats() {}
@@ -33,7 +33,19 @@ bool Stats::allHandsFound() {
 }
 
 void Stats::printHeader() {
-    std::cout << "Poker Hand Frequency Simulation [" VERSION " Version]" << std::endl;
+    std::cout << "Poker Hand Frequency Simulation [" + VERSION + " Version]" << std::endl;
+    std::cout << "=====================================================" << std::endl;
+    std::cout << "Hand Type: " << std::endl;
+}
+
+void Stats::printFooter() {
+    std::cout << "-----------------------------------------------------" << std::endl;
+    std::cout << "Hands Generated:" << std::endl;
+    std::cout << "Decks Drawn:" << std::endl;
+    std::cout << "Elapsed Time:" << std::endl;
+    if (VERSION == "PARALLEL")
+        std::cout << "Number of Processes:" << std::endl;
+    std::cout << "-----------------------------------------------------" << std::endl;
 }
 
 std::string Stats::typeToString(type_t t) {
