@@ -66,7 +66,7 @@ void Stats::printFooter() {
     std::cout << "-----------------------------------------------------" << std::endl;
     std::cout << std::setprecision(3) << std::fixed;
     std::cout << "Hands Generated:\t\t" << hands_ << std::endl;
-    std::cout << "Decks Drawn:\t\t" << std::endl;
+    std::cout << "Decks Drawn:\t\t" << hands_ / 10 << std::endl;
     std::cout << "Elapsed Time:\t\t" << getClock() << "s" << std::endl;
     if (version_ == "PARALLEL")
         std::cout << "Number of Processes:\t\t" << std::endl;

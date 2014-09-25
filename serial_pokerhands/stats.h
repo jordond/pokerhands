@@ -11,7 +11,6 @@ private:
     typedef HandType type_t;
     std::map<std::string, int> stats_;
     int hands_;
-    int decks_;
     std::string version_;
     clock_t begin_;
     clock_t end_;
