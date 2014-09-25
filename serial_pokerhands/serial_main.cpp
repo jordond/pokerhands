@@ -1,8 +1,9 @@
 #include "serial_main.h"
 
 int main() {
-    //debugHandType();
+    debugHandType();
     debugVariableHands();
+    debug250000Hands();
 
     return 0;
 }
@@ -72,5 +73,20 @@ void debugVariableHands() {
     if (s.allHandsFound())
         std::cout << "All hands have been found." << std::endl;
     else 
+        std::cout << "Missing some hands, luck is not in your favor." << std::endl;
+}
+
+void debug250000Hands() {
+    Deck d;
+    Stats s;
+    std::cout << "Drawing 250k hands..." << std::endl;
+    for (int i = 0; i <= 250000; ++i) {
+        Hand h = d.dealHand();
+        s.increment(h.type());
+    }
+    s.printHands();
+    if (s.allHandsFound())
+        std::cout << "All hands have been found." << std::endl;
+    else
         std::cout << "Missing some hands, luck is not in your favor." << std::endl;
 }
