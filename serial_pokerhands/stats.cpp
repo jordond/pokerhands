@@ -23,7 +23,7 @@ int Stats::getValue(type_t t) {
 
 bool Stats::allHandsFound() {
     int c = stats_.size();
-    if (stats_.find("Invalid") == stats_.end()) {
+    if (stats_.find("Invalid") != stats_.end()) {
         c--;
     }
     if (c == 10) {
