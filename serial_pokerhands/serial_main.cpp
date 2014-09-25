@@ -100,11 +100,13 @@ void debugFindAllHands() {
     Stats s;
     int count = 0;
     s.printHeader();
+    s.start();
     do {
         Hand h = d.dealHand();
         s.increment(h.type());
         count++;
     } while (!s.allHandsFound());
+    s.stop();
     s.printHands();
     s.printFooter();
 }

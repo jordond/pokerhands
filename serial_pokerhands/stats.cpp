@@ -5,6 +5,18 @@ Stats::Stats() : hands_(0), version_("SERIAL") {
 
 Stats::~Stats() {}
 
+void Stats::start() {
+    begin_ = clock();
+}
+
+void Stats::stop() {
+    end_ = clock();
+}
+
+double Stats::getClock() {
+    return double(end_ - begin_) / CLOCKS_PER_SEC;
+}
+
 void Stats::increment(type_t t) {
     std::string k = typeToString(t);
     stats_[k]++; //update or add
@@ -35,29 +47,34 @@ bool Stats::allHandsFound() {
 void Stats::printHeader() {
     std::cout << "Poker Hand Frequency Simulation [" + version_ + " Version]" << std::endl;
     std::cout << "=====================================================" << std::endl;
-    std::cout << "Hand Type: " << "\t\tFreq: " << "\t\tRelF: " << std::endl;
-}
-
-void Stats::printFooter() {
-    std::cout << "-----------------------------------------------------" << std::endl;
-    std::cout << "Hands Generated: " << hands_ << std::endl;
-    std::cout << "Decks Drawn: " << std::endl;
-    std::cout << "Elapsed Time: " << std::endl;
-    if (version_ == "PARALLEL")
-        std::cout << "Number of Processes:" << std::endl;
-    std::cout << "-----------------------------------------------------" << std::endl;
 }
 
 void Stats::printHands() {
+    std::cout << "Hand Type" << "\t\tFrequency" << "\t\tRelative (%)" << std::endl;
     std::map<int, std::string> sorted;
     for (std::map<std::string, int>::iterator m = stats_.begin(); m != stats_.end(); ++m) {
         sorted[m->second] = m->first;
     }
     for (std::map<int, std::string>::reverse_iterator m = sorted.rbegin(); m != sorted.rend(); ++m) {
-        double relF = ((double)m->first / hands_ ) * 100;
+        double relF = ((double) m->first / hands_) * 100;
         std::cout << std::setprecision(6) << std::fixed;
         std::cout << m->second << "\t\t" << m->first << "\t\t" << relF << "%" << std::endl;
     }
+}
+
+void Stats::printFooter() {
+    std::cout << "-----------------------------------------------------" << std::endl;
+    std::cout << std::setprecision(3) << std::fixed;
+    std::cout << "Hands Generated:\t\t" << hands_ << std::endl;
+    std::cout << "Decks Drawn:\t\t" << std::endl;
+    std::cout << "Elapsed Time:\t\t" << getClock() << "s" << std::endl;
+    if (version_ == "PARALLEL")
+        std::cout << "Number of Processes:\t\t" << std::endl;
+    std::cout << "-----------------------------------------------------" << std::endl;
+}
+
+void Stats::printHistogram() {
+
 }
 
 std::string Stats::typeToString(type_t t) {

@@ -3,6 +3,7 @@
 
 #include <map>
 #include <iomanip>
+#include <ctime>
 #include "deck.h"
 
 class Stats {
@@ -12,10 +13,16 @@ private:
     int hands_;
     int decks_;
     std::string version_;
+    clock_t begin_;
+    clock_t end_;
 
 public:
     Stats();
     ~Stats();
+
+    void start();
+    void stop();
+    double getClock();
 
     void increment(type_t);
     int getTypeCount(type_t);
