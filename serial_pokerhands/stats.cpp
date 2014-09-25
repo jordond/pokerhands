@@ -38,7 +38,7 @@ bool Stats::allHandsFound() {
     if (stats_.find("Invalid") != stats_.end()) {
         c--;
     }
-    if (c == 10) {
+    if (c == 10) { //10 for royalflush, 9 quicker debug
         return true;
     }
     return false;
@@ -50,7 +50,7 @@ void Stats::printHeader() {
 }
 
 void Stats::printHands() {
-    std::cout << "Hand Type" << "\t\tFrequency" << "\t\tRelative (%)" << std::endl;
+    std::cout << "Hand Type" << "\t\tFrequency" << "\tRelative (%)" << std::endl;
     std::map<int, std::string> sorted;
     for (std::map<std::string, int>::iterator m = stats_.begin(); m != stats_.end(); ++m) {
         sorted[m->second] = m->first;
@@ -65,8 +65,8 @@ void Stats::printHands() {
 void Stats::printFooter() {
     std::cout << "-----------------------------------------------------" << std::endl;
     std::cout << std::setprecision(3) << std::fixed;
-    std::cout << "Hands Generated:\t\t" << hands_ << std::endl;
-    std::cout << "Decks Drawn:\t\t" << hands_ / 10 << std::endl;
+    std::cout << "Hands Generated:\t" << hands_ << std::endl;
+    std::cout << "Decks Drawn:\t\t" << hands_ / 10.0 << std::endl;
     std::cout << "Elapsed Time:\t\t" << getClock() << "s" << std::endl;
     if (version_ == "PARALLEL")
         std::cout << "Number of Processes:\t\t" << std::endl;
@@ -74,7 +74,7 @@ void Stats::printFooter() {
 }
 
 void Stats::printHistogram() {
-
+    //todo
 }
 
 std::string Stats::typeToString(type_t t) {
