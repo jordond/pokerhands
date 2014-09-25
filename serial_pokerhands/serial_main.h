@@ -7,5 +7,6 @@
 void debugHandType();
 void debugVariableHands();
 void debug250000Hands();
+void debugFindAllHands();
 
 #endif

@@ -2,8 +2,9 @@
 
 int main() {
     debugHandType();
-    debugVariableHands();
-    debug250000Hands();
+    //debugVariableHands();
+    //debug250000Hands();
+    //debugFindAllHands();
 
     return 0;
 }
@@ -44,6 +45,12 @@ void debugHandType() {
     hands.push_back(strtflush);
     std::array<int, 10> royal = { 0, 1, 0, 10, 0, 11, 0, 12, 0, 13 }; //royal
     hands.push_back(royal);
+    std::array<int, 10> royal2 = { 1, 1, 1, 10, 1, 11, 1, 12, 1, 13 }; //royal 2
+    hands.push_back(royal2);
+    std::array<int, 10> royal3 = { 2, 1, 2, 10, 2, 11, 2, 12, 2, 13 }; //royal 3
+    hands.push_back(royal3);
+    std::array<int, 10> royal4 = { 3, 1, 3, 10, 3, 11, 3, 12, 3, 13 }; //royal 4
+    hands.push_back(royal4);
 
     for (std::vector<std::array<int, 10>>::iterator it = hands.begin(); it != hands.end(); ++it) {
         Hand test = Hand(*it);
@@ -56,7 +63,6 @@ void debugHandType() {
 
     std::cout << "Hands Drawn: " << hands_ << " Decks drawn: " << d.getDecks() << std::endl;
 }
-
 void debugVariableHands() {
     int count = 0;
     std::cout << "Enter number of hands: ";
@@ -75,7 +81,6 @@ void debugVariableHands() {
     else 
         std::cout << "Missing some hands, luck is not in your favor." << std::endl;
 }
-
 void debug250000Hands() {
     Deck d;
     Stats s;
@@ -89,4 +94,16 @@ void debug250000Hands() {
         std::cout << "All hands have been found." << std::endl;
     else
         std::cout << "Missing some hands, luck is not in your favor." << std::endl;
+}
+void debugFindAllHands() {
+    Deck d;
+    Stats s;
+    int count = 0;
+    std::cout << "Attempting to draw all hands..." << std::endl;
+    do {
+        Hand h = d.dealHand();
+        s.increment(h.type());
+        count++;
+    } while (!s.allHandsFound());
+    std::cout << "It took " << count << " hands to find all types." << std::endl;
 }
