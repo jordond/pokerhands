@@ -1,6 +1,8 @@
 #ifndef STATS_H
 #define STATS_H
 
+#define VERSION "SERIAL"
+
 #include <map>
 #include "deck.h"
 
@@ -14,8 +16,10 @@ public:
 
     void increment(type_t);
     int getValue(type_t);
-
     bool allHandsFound();
+
+    //printing
+    void printHeader();
 
     std::string typeToString(type_t);
 

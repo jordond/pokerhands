@@ -22,7 +22,7 @@ int Stats::getValue(type_t t) {
 }
 
 bool Stats::allHandsFound() {
-    int c = stats_.count;
+    int c = stats_.size();
     if (stats_.find("Invalid") == stats_.end()) {
         c--;
     }
@@ -30,6 +30,10 @@ bool Stats::allHandsFound() {
         return true;
     }
     return false;
+}
+
+void Stats::printHeader() {
+    std::cout << "Poker Hand Frequency Simulation [" VERSION " Version]" << std::endl;
 }
 
 std::string Stats::typeToString(type_t t) {
