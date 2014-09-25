@@ -6,17 +6,18 @@
 
 class Stats {
 private:
+    typedef Hand::HandType type_t;
     std::map<std::string, int> stats_;
-
 public:
     Stats();
     ~Stats();
 
-    void increment();
+    void increment(type_t);
 
-    int getValue(int);
+    void setValue(type_t);
+    int getValue(type_t);
 
-    std::string typeToString(int);
+    std::string typeToString(type_t);
 
 };
 
