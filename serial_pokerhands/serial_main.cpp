@@ -2,9 +2,9 @@
 
 int main() {
     //debugHandType();
-    //debugVariableHands();
+    debugVariableHands();
     //debug250000Hands();
-    debugFindAllHands();
+    //debugFindAllHands();
 
     return 0;
 }
@@ -65,21 +65,35 @@ void debugHandType() {
 }
 void debugVariableHands() {
     int count = 0;
-    std::cout << "Enter number of hands: ";
-    std::cin >> count;
+    do {
+        count = 0;
+        std::cout << "Enter number of hands (0 to quit): ";
+        std::cin >> count;
+        std::vector<double> t;
 
-    Deck d;
-    Stats s;
+        Deck d;
+        Stats s;
+        for (int i = 0; i <= count; ++i) {
+            s.start();
+            Hand h = d.dealHand();
+            s.increment(h.type());
+            s.stop();
+            t.push_back(s.getClock());
+        }
+        s.printHands();
 
-    for (int i = 0; i <= count; ++i) {
-        Hand h = d.dealHand();
-        s.increment(h.type());
-    }
-    s.printHands();
-    if (s.allHandsFound())
-        std::cout << "All hands have been found." << std::endl;
-    else 
-        std::cout << "Missing some hands, luck is not in your favor." << std::endl;
+        double totaltime = 0.0;
+        for (std::vector<double>::iterator it = t.begin(); it != t.end(); ++it) {
+            totaltime += *it;
+        }
+        std::cout << "Average time per hand:\t" << totaltime / t.size() << std::endl;
+        std::cout << "Total time:\t" << totaltime << std::endl;
+
+        if (s.allHandsFound())
+            std::cout << "All hands have been found.\n" << std::endl;
+        else
+            std::cout << "Missing some hands, luck is not in your favor.\n" << std::endl;
+    } while (count > 0);
 }
 void debug250000Hands() {
     Deck d;

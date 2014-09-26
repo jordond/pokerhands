@@ -21,6 +21,7 @@ public:
 
     void start();
     void stop();
+    void reset();
     double getClock();
 
     void increment(type_t);

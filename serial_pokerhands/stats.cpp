@@ -13,6 +13,11 @@ void Stats::stop() {
     end_ = clock();
 }
 
+void Stats::reset() {
+    begin_ = 0;
+    end_ = 0;
+}
+
 double Stats::getClock() {
     return double(end_ - begin_) / CLOCKS_PER_SEC;
 }
