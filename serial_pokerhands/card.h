@@ -3,8 +3,6 @@
 
 #include <string>
 
-enum class Suit { Diamonds = 0, Hearts = 1, Clubs = 2, Spades = 3};
-
 class Card {
 private:
     int suit_;

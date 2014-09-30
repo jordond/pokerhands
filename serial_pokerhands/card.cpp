@@ -1,6 +1,6 @@
 #include "card.h"
 
-const int Card::SUITS[4] = { (int) Suit::Diamonds, (int) Suit::Hearts, (int) Suit::Clubs, (int) Suit::Spades };
+const int Card::SUITS[4] = { 0 , 1 , 2 ,3 };
 const int Card::RANKS[13] = { 1,2,3,4,5,6,7,8,9,10,11,12,13 };
 
 Card::Card() : suit_(-1), rank_(-1) {}
@@ -18,13 +18,13 @@ int Card::rank() {
 std::string Card::suit(int s) {
     switch (s)
     {
-    case (int)Suit::Diamonds:
+    case 0:
         return "D";
-    case (int)Suit::Hearts:
+    case 1:
         return "H";
-    case (int)Suit::Clubs:
+    case 2:
         return "C";
-    case (int) Suit::Spades:
+    case 3:
         return "S";
     default:
         return "U"; //unknown
