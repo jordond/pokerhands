@@ -60,24 +60,25 @@ HandType Hand::analyze() {
                 r = 0;
             }
             if (r == 5) {
-                if (flush && rank[9] == 1 && rank[13] == 1) //royal flush
+                if (flush && rank[9] == 1 && rank[13] == 1) {//royal flush
                     rflush = true;
+                }
                 strt = true;                
                 break;
             }
         }        
     }
 
-    if (rflush)             return HandType::RoyalFlush;
-    else if (flush && strt) return HandType::StraightFlush;
-    else if (four)          return HandType::FourKind;
-    else if (pair && three) return HandType::FullHouse;
-    else if (flush)         return HandType::Flush;
-    else if (strt)          return HandType::Straight;
-    else if (three)         return HandType::ThreeKind;
-    else if (pair && pair2) return HandType::TwoPair;
-    else if (pair)          return HandType::OnePair;
-    return HandType::HighCard;
+    if (rflush)             return type_ = HandType::RoyalFlush;
+    else if (flush && strt) return type_ = HandType::StraightFlush;
+    else if (four)          return type_ = HandType::FourKind;
+    else if (pair && three) return type_ = HandType::FullHouse;
+    else if (flush)         return type_ = HandType::Flush;
+    else if (strt)          return type_ = HandType::Straight;
+    else if (three)         return type_ = HandType::ThreeKind;
+    else if (pair && pair2) return type_ = HandType::TwoPair;
+    else if (pair)          return type_ = HandType::OnePair;
+    return type_ = HandType::HighCard;
 }
 
 std::string Hand::readable() {

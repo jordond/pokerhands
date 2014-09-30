@@ -49,6 +49,6 @@ Hand Deck::dealHand() {
             i--;
         }
     }
-    h.type(h.analyze());
+    h.analyze();
     return h;
 }

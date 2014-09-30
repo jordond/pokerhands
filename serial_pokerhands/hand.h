@@ -20,7 +20,6 @@ public:
     Hand(std::array<int, 10>);
     ~Hand();
 
-
     void add(Card);
 
     HandType analyze();
@@ -30,7 +29,7 @@ public:
     void handSize(int h) { HAND_SIZE = h; }
 
     HandType type() { return type_; }
-    void type(HandType t) { type_ = t; }
+    void type(HandType t) { type_ = t; } //shouldn't use
     
     friend bool operator<(Card& lhs, Card& rhs);
 };

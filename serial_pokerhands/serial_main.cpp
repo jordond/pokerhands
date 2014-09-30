@@ -1,11 +1,33 @@
 #include "serial_main.h"
 
 int main() {
+    //Create stat counting object, and the deck
+    Stats s;
+    Deck d;
+
+    //Print message to user
+    s.printHeader();
+
+    //Start the timer 
+    s.start();
+
+    //Perform dealing hand until all hands are found
+    do {
+        Hand h = d.dealHand();
+
+        //Increment the stats object with the found hand
+        s.increment(h.type());
+    } while (!s.allHandsFound());
+
+    //Stop the timer and print the information
+    s.stop();
+    s.printHands();
+    s.printFooter();
+
     //debugHandType();
-    debugVariableHands();
+    //debugVariableHands();
     //debug250000Hands();
     //debugFindAllHands();
-
     return 0;
 }
 
