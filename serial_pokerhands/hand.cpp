@@ -1,6 +1,6 @@
 #include "hand.h"
 
-Hand::Hand() : type_(Hand::HandType::None) {}
+Hand::Hand() : type_(Hand::None) {}
 
 //Hand::Hand(std::array<int, 10>r) : type_(HandType::None) {
 //    for (int i = 0; i < 10; i += 2) {
