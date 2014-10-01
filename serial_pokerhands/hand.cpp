@@ -1,6 +1,6 @@
 #include "hand.h"
 
-Hand::Hand() : type_(HandType::None) {}
+Hand::Hand() : type_(Hand::HandType::None) {}
 
 //Hand::Hand(std::array<int, 10>r) : type_(HandType::None) {
 //    for (int i = 0; i < 10; i += 2) {
@@ -69,16 +69,16 @@ Hand::HandType Hand::analyze() {
         }        
     }
 
-    if (rflush)             return type_ = HandType::RoyalFlush;
-    else if (flush && strt) return type_ = HandType::StraightFlush;
-    else if (four)          return type_ = HandType::FourKind;
-    else if (pair && three) return type_ = HandType::FullHouse;
-    else if (flush)         return type_ = HandType::Flush;
-    else if (strt)          return type_ = HandType::Straight;
-    else if (three)         return type_ = HandType::ThreeKind;
-    else if (pair && pair2) return type_ = HandType::TwoPair;
-    else if (pair)          return type_ = HandType::OnePair;
-    return type_ = HandType::HighCard;
+    if (rflush)             return type_ = Hand::RoyalFlush;
+    else if (flush && strt) return type_ = Hand::StraightFlush;
+    else if (four)          return type_ = Hand::FourKind;
+    else if (pair && three) return type_ = Hand::FullHouse;
+    else if (flush)         return type_ = Hand::Flush;
+    else if (strt)          return type_ = Hand::Straight;
+    else if (three)         return type_ = Hand::ThreeKind;
+    else if (pair && pair2) return type_ = Hand::TwoPair;
+    else if (pair)          return type_ = Hand::OnePair;
+    return type_ = Hand::HighCard;
 }
 
 std::string Hand::readable() {
