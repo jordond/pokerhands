@@ -17,7 +17,7 @@ private:
 
 public:
     Hand();
-    Hand(std::array<int, 10>);
+    //Hand(std::array<int, 10>);
     ~Hand();
 
     void add(Card);

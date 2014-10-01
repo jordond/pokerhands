@@ -2,13 +2,13 @@
 
 Hand::Hand() : type_(HandType::None) {}
 
-Hand::Hand(std::array<int, 10>r) : type_(HandType::None) {
-    for (int i = 0; i < 10; i += 2) {
-        Card c = Card(r[i], r[i + 1]);
-        hand_.push_back(c);
-    }
-    type_ = Hand::analyze();
-}
+//Hand::Hand(std::array<int, 10>r) : type_(HandType::None) {
+//    for (int i = 0; i < 10; i += 2) {
+//        Card c = Card(r[i], r[i + 1]);
+//        hand_.push_back(c);
+//    }
+//    type_ = Hand::analyze();
+//}
 
 Hand::~Hand() {}
 
