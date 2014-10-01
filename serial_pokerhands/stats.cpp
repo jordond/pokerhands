@@ -84,25 +84,25 @@ void Stats::printHistogram() {
 
 std::string Stats::typeToString(type_t t) {
     switch (t) {
-    case HandType::RoyalFlush:
+    case Hand::RoyalFlush:
         return "Royal Flush";
-    case HandType::StraightFlush:
+    case Hand::StraightFlush:
         return "Straight Flush";
-    case HandType::FourKind:
+    case Hand::FourKind:
         return "Four of a Kind";
-    case HandType::FullHouse:
+    case Hand::FullHouse:
         return "Full House";
-    case HandType::Flush:
+    case Hand::Flush:
         return "Flush";
-    case HandType::Straight:
+    case Hand::Straight:
         return "Straight";
-    case HandType::ThreeKind:
+    case Hand::ThreeKind:
         return "Three of a Kind";
-    case HandType::TwoPair:
+    case Hand::TwoPair:
         return "Two pairs";
-    case HandType::OnePair:
+    case Hand::OnePair:
         return "One Pair";
-    case HandType::HighCard:
+    case Hand::HighCard:
         return "High Card";
     default:
         return "Invalid";

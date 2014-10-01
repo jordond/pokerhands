@@ -16,7 +16,7 @@ void Hand::add(Card c) {
     hand_.push_back(c);
 }
 
-HandType Hand::analyze() {
+Hand::HandType Hand::analyze() {
     bool pair = false, pair2 = false, three = false, four = false, flush = false, strt = false, rflush = false;
     int rank[14] = {0}; //13 ranks, low + high ace = 14
     int suit[4] = {0};

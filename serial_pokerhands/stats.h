@@ -8,7 +8,7 @@
 
 class Stats {
 private:
-    typedef HandType type_t;
+    typedef Hand::HandType type_t;
     std::map<std::string, int> stats_;
     int hands_;
     std::string version_;
