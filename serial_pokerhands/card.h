@@ -1,6 +1,7 @@
 #ifndef CARD_H
 #define CARD_H
 
+#include <sstream>
 #include <string>
 
 class Card {

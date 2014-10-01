@@ -43,6 +43,8 @@ std::string Card::rank(int r) {
     case 13:
         return "k";
     default:
-        return std::to_string(r); //non monkey
+        std::stringstream ss;
+        ss << r;
+        return ss.str(); //non monkey
     }
 }
