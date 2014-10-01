@@ -39,9 +39,4 @@ public:
 
 };
 
-class A {
-private:
-    static const std::string RECTANGLE;
-};
-
 #endif
