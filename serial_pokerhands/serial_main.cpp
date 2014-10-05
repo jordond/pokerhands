@@ -24,7 +24,7 @@ int main() {
     s.printHands();
     s.printFooter();
 
-    //debugHandType();
+    //debugHandType(); // deprecated see Hand.cpp line 5
     //debugVariableHands();
     //debug250000Hands();
     //debugFindAllHands();
@@ -36,6 +36,8 @@ void debugHandType() {
     Deck d;
     Stats s;
     int hands_ = 0;
+
+    //SEE HAND.CPP LINE 5
 
     // 0 - Diamond
     // 1 - Heart

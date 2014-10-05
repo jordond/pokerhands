@@ -2,6 +2,8 @@
 
 Hand::Hand() : type_(Hand::None) {}
 
+// removed for now. sharcnet doesn't support
+// todo implement a better manual hand create why'd i even do it this way?
 //Hand::Hand(std::array<int, 10>r) : type_(HandType::None) {
 //    for (int i = 0; i < 10; i += 2) {
 //        Card c = Card(r[i], r[i + 1]);
