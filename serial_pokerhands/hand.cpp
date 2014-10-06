@@ -9,15 +9,11 @@ Hand::Hand(std::vector<Card> c) : type_(Hand::None) {
     Hand::analyze();
 }
 
-// removed for now. sharcnet doesn't support
-// todo implement a better manual hand create why'd i even do it this way?
-//Hand::Hand(std::array<int, 10>r) : type_(HandType::None) {
-//    for (int i = 0; i < 10; i += 2) {
-//        Card c = Card(r[i], r[i + 1]);
-//        hand_.push_back(c);
-//    }
-//    type_ = Hand::analyze();
-//}
+Hand::Hand(std::string s) : type_(Hand::None) {
+    if (s.length() == Card::HAND_SIZE * 2) {
+        //todo
+    }
+}
 
 Hand::~Hand() {}
 

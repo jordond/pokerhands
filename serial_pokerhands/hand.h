@@ -3,14 +3,13 @@
 
 #include <sstream>
 #include <vector>
-//#include <array>
 #include "card.h"
 
 class Hand {
 public:
     Hand();
     Hand(std::vector<Card>);
-    //Hand(std::array<int, 10>);
+    Hand(std::string);
     ~Hand();
 
     enum HandType { Invalid = -2, None = -1, HighCard = 0, OnePair, TwoPair, ThreeKind, Straight, Flush, FullHouse, FourKind, StraightFlush, RoyalFlush };

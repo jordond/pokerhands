@@ -36,55 +36,23 @@ void debugHandType() {
     Deck d;
     Stats s;
     int hands_ = 0;
+   
+    std::string cards;
+    do {
+        std::cout << "Suit: Diamond0, Hearts1, Club2, Spade3" << std::endl;
+        std::cout << "Rank: Ace0/a, 1-10, Jack11/j, Queen12/q, King13/k, Ace14/a" << std::endl;
+        std::cout << "Enter hand (" << Card::HAND_SIZE << ") cards - 0 to quit:";
+        std::cin >> cards;
 
-    //SEE HAND.CPP LINE 5
+        Hand h = cards;
 
-    // 0 - Diamond
-    // 1 - Heart
-    // 2 - Club
-    // 3 - Spade
-    // 11 - Jack
-    // 12 - Queen
-    // 13 - King
-    // 1  - Ace
-
-    //std::vector< std::array<int, 10> > hands;
-    //std::array<int, 10> npair = { 0, 1, 1, 5, 2, 4, 3, 8, 3, 9 }; //no pair
-    //hands.push_back(npair);
-    //std::array<int, 10> pair = { 0, 1, 1, 1, 2, 2, 3, 3, 3, 4 }; //pair
-    //hands.push_back(pair);
-    //std::array<int, 10> pair2 = { 0, 1, 1, 1, 2, 2, 3, 2, 3, 4 }; //2 pair
-    //hands.push_back(pair2);
-    //std::array<int, 10> k3 = { 0, 1, 1, 1, 2, 1, 3, 2, 3, 4 }; //3 kind
-    //hands.push_back(k3);
-    //std::array<int, 10> strt = { 0, 1, 0, 2, 1, 3, 2, 4, 3, 5 }; //straight
-    //hands.push_back(strt);
-    //std::array<int, 10> flush = { 0, 1, 0, 5, 0, 6, 0, 2, 0, 9 }; //flush
-    //hands.push_back(flush);
-    //std::array<int, 10> fh = { 1, 1, 1, 1, 1, 4, 2, 4, 3, 4 }; //fullhouse
-    //hands.push_back(fh);
-    //std::array<int, 10> k4 = { 0, 1, 1, 1, 2, 1, 3, 1, 3, 4 }; //4kind
-    //hands.push_back(k4);
-    //std::array<int, 10> strtflush = { 0, 1, 0, 2, 0, 3, 0, 4, 0, 5 }; //straight flush
-    //hands.push_back(strtflush);
-    //std::array<int, 10> royal = { 0, 1, 0, 10, 0, 11, 0, 12, 0, 13 }; //royal
-    //hands.push_back(royal);
-    //std::array<int, 10> royal2 = { 1, 1, 1, 10, 1, 11, 1, 12, 1, 13 }; //royal 2
-    //hands.push_back(royal2);
-    //std::array<int, 10> royal3 = { 2, 1, 2, 10, 2, 11, 2, 12, 2, 13 }; //royal 3
-    //hands.push_back(royal3);
-    //std::array<int, 10> royal4 = { 3, 1, 3, 10, 3, 11, 3, 12, 3, 13 }; //royal 4
-    //hands.push_back(royal4);
-
-    //for (std::vector<std::array<int, 10>>::iterator it = hands.begin(); it != hands.end(); ++it) {
-    //    Hand test = Hand(*it);
-    //    hands_++;
-    //    if (test.type() != HandType::None)
-    //        std::cout << test.readable() << " contains a " << s.typeToString(test.type()) << std::endl;
-    //    else
-    //        std::cout << test.readable() << " doesn't contain valid hand" << std::endl;
-    //}
-
+        if (h.type() != Hand::None) {
+            std::cout << "Hand entered: " << cards;
+            std::cout << "Hand parsed: " << h.readable();
+            std::cout << "Hand type: " << h.type();
+        }
+    } while (cards != "0");
+    
     std::cout << "Hands Drawn: " << hands_ << " Decks drawn: " << d.getDecks() << std::endl;
 }
 void debugVariableHands() {
