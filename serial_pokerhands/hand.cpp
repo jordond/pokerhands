@@ -2,10 +2,11 @@
 
 Hand::Hand() : type_(Hand::None) {}
 
-Hand::Hand(std::vector<Card> c) {
+Hand::Hand(std::vector<Card> c) : type_(Hand::None) {
     for (std::vector<Card>::iterator it = c.begin(); it != c.end(); ++it) {
         Hand::add(*it);
     }
+    Hand::analyze();
 }
 
 // removed for now. sharcnet doesn't support

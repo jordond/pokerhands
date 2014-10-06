@@ -35,13 +35,13 @@ Card Deck::draw() {
     }
 }
 
-Hand Deck::dealHand() {
-    Hand h;
-    for (int i = 0; i < h.handSize(); ++i) {
+std::vector<Card> Deck::dealHand() {
+    std::vector<Card> h;
+    for (int i = 0; i < Card::HAND_SIZE; ++i) {
         if (size_ != 0) {
             Card c = draw();
             if (c.rank() != -1 && c.suit() != -1){ // invalid card returned
-                h.add(c);
+                h.push_back(c);
             }
         }
         else { //deck is empty
@@ -49,6 +49,5 @@ Hand Deck::dealHand() {
             i--;
         }
     }
-    h.analyze();
     return h;
 }
