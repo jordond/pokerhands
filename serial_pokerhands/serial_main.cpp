@@ -13,7 +13,7 @@ int main() {
 
     //Perform dealing hand until all hands are found
     do {
-        Hand h = Hand(d.dealHand());
+        Hand h = d.dealHand();
 
         //Increment the stats object with the found hand
         s.increment(h.type());
