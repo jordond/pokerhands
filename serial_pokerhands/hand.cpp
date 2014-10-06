@@ -3,8 +3,8 @@
 Hand::Hand() : type_(Hand::None) {}
 
 Hand::Hand(std::vector<Card> c) : type_(Hand::None) {
-    for (std::vector<Card>::iterator it = c.begin(); it != c.end(); ++it) {
-        Hand::add(*it);
+    for (size_t i = 0; i < c.size(); ++i) {
+        Hand::add(c[i]);
     }
     Hand::analyze();
 }
