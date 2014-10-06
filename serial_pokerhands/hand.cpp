@@ -3,8 +3,11 @@
 Hand::Hand() : type_(Hand::None) {}
 
 Hand::Hand(std::vector<Card> c) {
-
+    for (std::vector<Card>::iterator it = c.begin(); it != c.end(); ++it) {
+        Hand::add(*it);
+    }
 }
+
 // removed for now. sharcnet doesn't support
 // todo implement a better manual hand create why'd i even do it this way?
 //Hand::Hand(std::array<int, 10>r) : type_(HandType::None) {
