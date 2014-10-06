@@ -14,6 +14,7 @@ public:
     Card(int s, int r);
     ~Card() {}
 
+    static const int HAND_SIZE = 5;
     static const int SUITS[4];
     static const int RANKS[13];
     

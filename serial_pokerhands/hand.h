@@ -9,6 +9,7 @@
 class Hand {
 public:
     Hand();
+    Hand(std::vector<Card>);
     //Hand(std::array<int, 10>);
     ~Hand();
 
@@ -19,16 +20,12 @@ public:
     HandType analyze();
     std::string readable();
 
-    int handSize() { return HAND_SIZE; }
-
     HandType type() { return type_; }
     void type(HandType t) { type_ = t; } //shouldn't use
     
     friend bool operator<(Card& lhs, Card& rhs);
 
 private:
-    static const int HAND_SIZE = 5;
-
     std::vector<Card> hand_;
     HandType type_;
 };

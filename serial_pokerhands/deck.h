@@ -27,7 +27,7 @@ public:
     // Shuffles the deck of cards
     void shuffle();
 
-    Hand dealHand();
+    std::vector<Card> dealHand();
 
     // Obtain the current number of cards in the deck.
     // Returns: int - size of deck
