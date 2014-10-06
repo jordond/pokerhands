@@ -9,6 +9,7 @@
 class Hand {
 public:
     Hand();
+    Hand(std::vector<Card>);
     //Hand(std::array<int, 10>);
     ~Hand();
 
