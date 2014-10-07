@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "serial_pokerhands", "serial_pokerhands\serial_pokerhands.vcxproj", "{A878AEA2-EA87-4138-BF73-DFC6BAD31B7A}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "parallel_pokerhands", "parallel_pokerhands\parallel_pokerhands.vcxproj", "{60E1413A-EB84-4EE8-BCDB-B444A191F412}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -15,6 +17,10 @@ Global
 		{A878AEA2-EA87-4138-BF73-DFC6BAD31B7A}.Debug|Win32.Build.0 = Debug|Win32
 		{A878AEA2-EA87-4138-BF73-DFC6BAD31B7A}.Release|Win32.ActiveCfg = Release|Win32
 		{A878AEA2-EA87-4138-BF73-DFC6BAD31B7A}.Release|Win32.Build.0 = Release|Win32
+		{60E1413A-EB84-4EE8-BCDB-B444A191F412}.Debug|Win32.ActiveCfg = Debug|Win32
+		{60E1413A-EB84-4EE8-BCDB-B444A191F412}.Debug|Win32.Build.0 = Debug|Win32
+		{60E1413A-EB84-4EE8-BCDB-B444A191F412}.Release|Win32.ActiveCfg = Release|Win32
+		{60E1413A-EB84-4EE8-BCDB-B444A191F412}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
