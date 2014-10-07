@@ -21,7 +21,7 @@ public:
     // Sets the current card information based on the passed in arguments.
     // Accepts: int Suit, int Rank
     void createCard(int s, int r);
-
+    bool valid();
     int suit();
     int rank();
     std::string suit(int);
