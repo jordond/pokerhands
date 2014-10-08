@@ -140,14 +140,7 @@ void processSlave(int rank){
 		{
 			MPI_Get_count(&status, MPI_INT, &numRecv);
 
-			// Validate the SINs in the message buffer
-			for (int i = 0; i < numRecv; ++i)
-			{
-				// For each invalid SIN... 
-				//if (!sinVal.set(msgBuff[i]))
-					// ... Send a message to the master
-				//	MPI_Isend(&msgBuff[i], 1, MPI_INT, 0, TAG_DATA, MPI_COMM_WORLD, &request);
-			}
+
 
 		}
 		//ELSE
