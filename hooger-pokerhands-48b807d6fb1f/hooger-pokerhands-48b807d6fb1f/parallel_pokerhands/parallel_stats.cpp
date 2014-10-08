@@ -93,7 +93,7 @@ std::string Stats::typeToString(type_t t) {
     case Hand::FullHouse:
         return "Full House";
     case Hand::Flush:
-        return "Flush";
+        return "Flush\t";
     case Hand::Straight:
         return "Straight";
     case Hand::ThreeKind:
