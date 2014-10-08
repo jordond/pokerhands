@@ -9,7 +9,7 @@ using namespace std;
 const int MAX_MSG_SIZE = 100;
 const int TAG_DATA = 0, TAG_QUIT = 1;
 
-void dispatchSins(int numProcs, int& totalSins, ifstream& in)
+void dispatchSins(int numProcs, int& totalHands, ifstream& in)
 {
 	int msgBuff[MAX_MSG_SIZE];
 
@@ -28,7 +28,7 @@ void dispatchSins(int numProcs, int& totalSins, ifstream& in)
 		}
 
 		// Update the SINs counter
-		totalSins += numToSend;
+		totalHands += numToSend;
 
 		// Send
 		MPI_Send(msgBuff, numToSend, MPI_INT, p, TAG_DATA, MPI_COMM_WORLD);
@@ -99,7 +99,42 @@ void processMaster(int numProcs)
 }
 
 void processSlave(int rank){
+	// Message passing variables
+	int msgBuff[MAX_MSG_SIZE];
+	MPI_Status status;
+	MPI_Request request;
+	int numRecv;
 
+	// Validation variables
+	//CSin sinVal;
+
+	// main loop until a TERMINATE message is received
+	do
+	{
+		// Receive a message from the master
+		MPI_Recv(msgBuff, MAX_MSG_SIZE, MPI_INT, 0, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
+
+		// IF it's a DATA message
+		if (status.MPI_TAG == TAG_DATA)
+		{
+			MPI_Get_count(&status, MPI_INT, &numRecv);
+
+			// Validate the SINs in the message buffer
+			for (int i = 0; i < numRecv; ++i)
+			{
+				// For each invalid SIN... 
+				//if (!sinVal.set(msgBuff[i]))
+					// ... Send a message to the master
+				//	MPI_Isend(&msgBuff[i], 1, MPI_INT, 0, TAG_DATA, MPI_COMM_WORLD, &request);
+			}
+
+		}
+		//ELSE
+		else
+			// Sends a DONE message to the master
+			MPI_Send(&msgBuff[0], 1, MPI_INT, 0, TAG_QUIT, MPI_COMM_WORLD);
+
+	} while (status.MPI_TAG != TAG_QUIT);
 }
 
 
