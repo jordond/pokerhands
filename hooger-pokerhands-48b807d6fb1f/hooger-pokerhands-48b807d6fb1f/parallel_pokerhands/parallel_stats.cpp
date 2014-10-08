@@ -1,6 +1,6 @@
-#include "stats.h"
+#include "parallel_stats.h"
 
-Stats::Stats() : hands_(0), version_("SERIAL") {
+Stats::Stats() : hands_(0), version_("PARALLEL") {
 }
 
 Stats::~Stats() {}

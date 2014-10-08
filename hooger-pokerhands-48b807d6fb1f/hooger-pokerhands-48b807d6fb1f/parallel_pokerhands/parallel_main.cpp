@@ -79,19 +79,40 @@ void checkMessagesFromSlaves(int& activeCount)
 
 void processMaster(int numProcs)
 {
+	Stats s;
+	Deck d;
 
+	cout << "using " << numProcs
+		<< " processes..." << endl << endl;
 
 	// Declare counters
+	int totalHands = 0;
 	int activeCount = numProcs - 1;
 
+	//start the master process timer
+	double masterTimer = MPI_Wtime();
+		
+
 	// main loop while there are any slaves still "active"
+	bool deadSlaves = false;
+
+	//loop needs work. probably wrong
 	while (activeCount > 0)
 	{
 		// IF there are more Hands
+		if (!s.allHandsFound()){
+			do {
+				Hand h = d.dealHand();
 
-		// ELSE Sends a TERMINATE message to each slave
-		terminateSlaves(numProcs);
-
+				//Increment the stats object with the found hand
+				s.increment(h.type());
+			} while (!s.allHandsFound());
+		}
+		else{
+			// ELSE Sends a TERMINATE message to each slave
+			terminateSlaves(numProcs);
+			deadSlaves = true;
+		}
 
 		// Checks for a message from any slave(NON - BLOCKING)
 		checkMessagesFromSlaves(activeCount);
@@ -148,8 +169,6 @@ int main(int argc, char* argv[]) {
 		Stats s;
 		Deck d;
 		
-	
-		
 		int rank, numProcs;
 
 		MPI_Comm_size(MPI_COMM_WORLD, &numProcs);
@@ -171,12 +190,12 @@ int main(int argc, char* argv[]) {
 		s.start();
 
 		//Perform dealing hand until all hands are found
-		do {
-			Hand h = d.dealHand();
+		//do {
+		//	Hand h = d.dealHand();
 
-			//Increment the stats object with the found hand
-			s.increment(h.type());
-		} while (!s.allHandsFound());
+		//	//Increment the stats object with the found hand
+		//	s.increment(h.type());
+		//} while (!s.allHandsFound());
 
 		//Stop the timer and print the information
 		s.stop();
