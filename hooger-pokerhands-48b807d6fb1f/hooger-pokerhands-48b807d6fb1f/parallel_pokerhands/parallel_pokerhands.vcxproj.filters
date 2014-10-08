@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="processes.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="card.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -27,10 +24,10 @@
     <ClCompile Include="hand.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="serial_main.cpp">
+    <ClCompile Include="stats.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="stats.cpp">
+    <ClCompile Include="parallel_main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -44,10 +41,10 @@
     <ClInclude Include="hand.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="serial_main.h">
+    <ClInclude Include="stats.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="stats.h">
+    <ClInclude Include="parallel_main.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

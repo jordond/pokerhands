@@ -85,15 +85,14 @@
     <ClCompile Include="card.cpp" />
     <ClCompile Include="deck.cpp" />
     <ClCompile Include="hand.cpp" />
-    <ClCompile Include="processes.cpp" />
-    <ClCompile Include="serial_main.cpp" />
+    <ClCompile Include="parallel_main.cpp" />
     <ClCompile Include="stats.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="card.h" />
     <ClInclude Include="deck.h" />
     <ClInclude Include="hand.h" />
-    <ClInclude Include="serial_main.h" />
+    <ClInclude Include="parallel_main.h" />
     <ClInclude Include="stats.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
