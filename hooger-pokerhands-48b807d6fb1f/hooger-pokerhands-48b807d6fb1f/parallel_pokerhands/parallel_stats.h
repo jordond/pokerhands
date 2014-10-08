@@ -31,7 +31,7 @@ public:
 
     //printing
     void printHeader();
-    void printFooter();
+    void printFooter(int numProcs);
     void printHands();
     void printHistogram();
 

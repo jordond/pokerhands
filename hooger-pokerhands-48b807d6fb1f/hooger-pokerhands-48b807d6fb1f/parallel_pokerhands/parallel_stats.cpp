@@ -67,14 +67,14 @@ void Stats::printHands() {
     }
 }
 
-void Stats::printFooter() {
+void Stats::printFooter(int numProcs) {
     std::cout << "-----------------------------------------------------" << std::endl;
     std::cout << std::setprecision(3) << std::fixed;
     std::cout << "Hands Generated:\t" << hands_ << std::endl;
     std::cout << "Decks Drawn:\t\t" << hands_ / 10.0 << std::endl;
     std::cout << "Elapsed Time:\t\t" << getClock() << "s" << std::endl;
     if (version_ == "PARALLEL")
-        std::cout << "Number of Processes:\t\t" << std::endl;
+        std::cout << "Number of Processes:\t\t" << numProcs << std::endl;
     std::cout << "-----------------------------------------------------" << std::endl;
 }
 

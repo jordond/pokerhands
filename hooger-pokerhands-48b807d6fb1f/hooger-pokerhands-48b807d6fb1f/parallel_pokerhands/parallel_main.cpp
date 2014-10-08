@@ -1,5 +1,4 @@
 #include <iostream>
-#include <fstream>
 #include <string>
 #include "parallel_main.h"
 #include "mpi.h"
@@ -9,7 +8,7 @@ using namespace std;
 const int MAX_MSG_SIZE = 100;
 const int TAG_DATA = 0, TAG_QUIT = 1;
 
-void dispatchSins(int numProcs, int& totalHands, ifstream& in)
+void dispatchHands(int numProcs, int& totalHands)
 {
 	int msgBuff[MAX_MSG_SIZE];
 
@@ -20,7 +19,7 @@ void dispatchSins(int numProcs, int& totalHands, ifstream& in)
 		// Fill the message buffer
 		for (int i = 0; i < MAX_MSG_SIZE; ++i)
 		{
-			if (!(in >> msgBuff[i]))
+			if (!(msgBuff[i]))
 			{
 				numToSend = i;
 				break;
@@ -77,7 +76,7 @@ void checkMessagesFromSlaves(int& activeCount)
 }
 
 
-void processMaster(int numProcs)
+void processMaster(int numProcs) 
 {
 	Stats s;
 	Deck d;
@@ -101,15 +100,11 @@ void processMaster(int numProcs)
 	{
 		// IF there are more Hands
 		if (!s.allHandsFound()){
-			do {
-				Hand h = d.dealHand();
 
-				//Increment the stats object with the found hand
-				s.increment(h.type());
-			} while (!s.allHandsFound());
+			dispatchHands(numProcs, totalHands);
 		}
 		else{
-			// ELSE Sends a TERMINATE message to each slave
+		//	// ELSE Sends a TERMINATE message to each slave
 			terminateSlaves(numProcs);
 			deadSlaves = true;
 		}
@@ -140,8 +135,6 @@ void processSlave(int rank){
 		{
 			MPI_Get_count(&status, MPI_INT, &numRecv);
 
-
-
 		}
 		//ELSE
 		else
@@ -152,9 +145,7 @@ void processSlave(int rank){
 }
 
 
-
-
-int main(int argc, char* argv[]) {
+int main(int argc, char* argv[]) { //int argc, char* argv[]
 
 	if (MPI_Init(&argc, &argv) == MPI_SUCCESS){
 
@@ -164,48 +155,53 @@ int main(int argc, char* argv[]) {
 		
 		int rank, numProcs;
 
-		MPI_Comm_size(MPI_COMM_WORLD, &numProcs);
-
-		//continue if there is at least one slave process
-		if (numProcs > 1){
-			MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-
-			if (rank == 0)
-				processMaster(numProcs);
-			else
-				processSlave(rank);
-		}
-
 		//Print message to user
 		s.printHeader();
 
 		//Start the timer 
 		s.start();
 
-		//Perform dealing hand until all hands are found
-		//do {
-		//	Hand h = d.dealHand();
+		//*******get number of processes from cmdline
+		MPI_Comm_size(MPI_COMM_WORLD, &numProcs);
 
-		//	//Increment the stats object with the found hand
-		//	s.increment(h.type());
-		//} while (!s.allHandsFound());
+		MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+
+		do {
+			Hand h = d.dealHand();
+
+			//Increment the stats object with the found hand
+			s.increment(h.type());
+			//totalHands++;
+		} while (!s.allHandsFound());
+
+
+		//continue if there is at least one slave process
+		//		if (numProcs > 1){
+		if (rank == 0)
+			processMaster(numProcs); 
+		else
+			processSlave(rank);
 
 		//Stop the timer and print the information
 		s.stop();
 		s.printHands();
-		s.printFooter();
+		s.printFooter(numProcs);	
 	}
 	else
 		cerr << "Error: invalid input." << endl;
 
+	
+
 	MPI_Finalize();
+
+
 	
 
     //debugHandType(); // deprecated see Hand.cpp line 5
     //debugVariableHands();
     //debug250000Hands();
     //debugFindAllHands();
-    return 0;
+    //return 0;
 }
 
 
@@ -292,5 +288,5 @@ void debugFindAllHands() {
     } while (!s.allHandsFound());
     s.stop();
     s.printHands();
-    s.printFooter();
+    s.printFooter(0);
 }
