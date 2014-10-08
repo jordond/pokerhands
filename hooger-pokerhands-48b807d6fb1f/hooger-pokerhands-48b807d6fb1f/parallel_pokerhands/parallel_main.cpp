@@ -81,8 +81,8 @@ void processMaster(int numProcs)
 	Stats s;
 	Deck d;
 
-	cout << "using " << numProcs
-		<< " processes..." << endl << endl;
+	//Print message to user
+	s.printHeader();
 
 	// Declare counters
 	int totalHands = 0;
@@ -96,12 +96,22 @@ void processMaster(int numProcs)
 	bool deadSlaves = false;
 
 	//loop needs work. probably wrong
-	while (activeCount > 0)
-	{
+	//while (activeCount > 0)
+	//{
 		// IF there are more Hands
-		if (!s.allHandsFound()){
+		if (!s.allHandsFound()){	
 
-			dispatchHands(numProcs, totalHands);
+			do {
+				Hand h = d.dealHand();
+
+				//Increment the stats object with the found hand
+				s.increment(h.type());
+				//totalHands++;
+			} while (!s.allHandsFound());
+
+			//dispatchHands(numProcs, totalHands);
+
+			
 		}
 		else{
 		//	// ELSE Sends a TERMINATE message to each slave
@@ -111,7 +121,13 @@ void processMaster(int numProcs)
 
 		// Checks for a message from any slave(NON - BLOCKING)
 		checkMessagesFromSlaves(activeCount);
-	}
+	//}
+
+	//Stop the timer and print the information
+	s.stop();
+	s.printHands();
+	s.printFooter(numProcs);
+
 }
 
 void processSlave(int rank){
@@ -120,6 +136,9 @@ void processSlave(int rank){
 	MPI_Status status;
 	MPI_Request request;
 	int numRecv;
+
+	Deck d;
+	Stats s;
 
 	// Validation variables
 	//CSin sinVal;
@@ -135,6 +154,11 @@ void processSlave(int rank){
 		{
 			MPI_Get_count(&status, MPI_INT, &numRecv);
 
+			Hand h = d.dealHand();
+
+			//Increment the stats object with the found hand
+			s.increment(h.type());
+
 		}
 		//ELSE
 		else
@@ -147,34 +171,22 @@ void processSlave(int rank){
 
 int main(int argc, char* argv[]) { //int argc, char* argv[]
 
+	//Create stat counting object, and the deck
+	Stats s;
+	Deck d;
+	
+
+
+	//Start the timer 
+	s.start();
+
 	if (MPI_Init(&argc, &argv) == MPI_SUCCESS){
 
-		//Create stat counting object, and the deck
-		Stats s;
-		Deck d;
-		
 		int rank, numProcs;
-
-		//Print message to user
-		s.printHeader();
-
-		//Start the timer 
-		s.start();
-
 		//*******get number of processes from cmdline
 		MPI_Comm_size(MPI_COMM_WORLD, &numProcs);
-
 		MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-
-		do {
-			Hand h = d.dealHand();
-
-			//Increment the stats object with the found hand
-			s.increment(h.type());
-			//totalHands++;
-		} while (!s.allHandsFound());
-
-
+		
 		//continue if there is at least one slave process
 		//		if (numProcs > 1){
 		if (rank == 0)
@@ -182,10 +194,7 @@ int main(int argc, char* argv[]) { //int argc, char* argv[]
 		else
 			processSlave(rank);
 
-		//Stop the timer and print the information
-		s.stop();
-		s.printHands();
-		s.printFooter(numProcs);	
+
 	}
 	else
 		cerr << "Error: invalid input." << endl;
