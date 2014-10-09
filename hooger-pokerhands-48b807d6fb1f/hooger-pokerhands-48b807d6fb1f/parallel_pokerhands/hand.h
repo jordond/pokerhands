@@ -24,9 +24,12 @@ public:
     
     friend bool operator<(Card& lhs, Card& rhs);
 
+	bool set(int s);
+
 private:
     std::vector<Card> hand_;
     HandType type_;
+	int validHand_;
 };
 
 #endif
