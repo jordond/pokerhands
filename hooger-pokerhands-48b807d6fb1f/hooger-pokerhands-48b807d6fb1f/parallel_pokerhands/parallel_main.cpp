@@ -42,6 +42,7 @@ void dispatchHands(int numProcs, int& totalHands, bool& foundAllHands)
 
 }//dispachHands
 
+
 void terminateSlaves(int numProcs)
 {
 	cout << "Terminating all processes...." ;
@@ -95,31 +96,31 @@ void processMaster(int numProcs)
 	//Start the timer 
 	s.start();
 
-	do {
+	//do {
+	for (int i = 0; i <= 250000; ++i) {
 		Hand h = d.dealHand();
 
 		//Increment the stats object with the found hand
 		s.increment(h.type());
+		//debug250000Hands();
 
 		// Checks for a message from any slave(NON - BLOCKING)
 		checkMessagesFromSlaves(activeSlaveCount);
-		
+
 		if (s.oneHandFound()){
-			foundAllHands[handCount] = true;			
+			foundAllHands[handCount] = true;
 			handCount++;
 		}
 
 		//send message to slaves about hand
 		dispatchHands(numProcs, totalHands, foundAllHands[handCount]);
-
-	} while (handCount != 10);
+	}
+	//} while (handCount != 10);
 
 	//Stop the timer and print the information
 	s.stop();
 	s.printHands();
 	s.printFooter(numProcs);
-
-
 
 	if (!deadSlaves){
 		terminateSlaves(numProcs);
@@ -151,17 +152,19 @@ void processSlave(int rank){
 			MPI_Get_count(&status, MPI_INT, &numRecv);
 			for (int i = 0; i < numRecv; ++i)
 			{
-				do {
+				//do {
+				for (int i = 0; i <= 250000; ++i) {
 					Hand h = d.dealHand();
 
 					//Increment the stats object with the found hand
-					s.increment(h.type());
+					s.increment(h.type());					
 
 					if (s.oneHandFound()){
 						MPI_Isend(&msgBuff[i], 1, MPI_INT, 0, TAG_DATA, MPI_COMM_WORLD, &request);
 					}
+				}
 
-				} while (handCount != 10);
+				//} while (handCount != 10);
 			}
 
 		}
