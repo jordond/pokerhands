@@ -38,15 +38,19 @@ int Stats::getTypeCount(type_t t) {
     }
 }
 
-bool Stats::allHandsFound() {
-    int c = stats_.size();
-    if (stats_.find("Invalid") != stats_.end()) {
-        c--;
-    }
-    if (c == 10) { //10 for royalflush, 9 quicker debug
-        return true;
-    }
-    return false;
+int statCounter = 1;
+bool Stats::oneHandFound() {
+	int foundHand = stats_.size();
+	if (stats_.find("Invalid") != stats_.end()) {
+		foundHand--;
+	}
+	
+	if (foundHand == statCounter) { 
+		foundHand = 0;
+		statCounter++;
+		return true;
+	}
+	return false;
 }
 
 void Stats::printHeader() {
@@ -56,6 +60,7 @@ void Stats::printHeader() {
 
 void Stats::printHands() {
     std::cout << "Hand Type" << "\t\tFrequency" << "\tRelative (%)" << std::endl;
+	std::cout << "-----------------------------------------------------" << std::endl;
     std::map<int, std::string> sorted;
     for (std::map<std::string, int>::iterator m = stats_.begin(); m != stats_.end(); ++m) {
         sorted[m->second] = m->first;
@@ -78,9 +83,6 @@ void Stats::printFooter(int numProcs) {
     std::cout << "-----------------------------------------------------" << std::endl;
 }
 
-void Stats::printHistogram() {
-    //todo
-}
 
 std::string Stats::typeToString(type_t t) {
     switch (t) {

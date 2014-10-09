@@ -26,14 +26,13 @@ public:
 
     void increment(type_t);
     int getTypeCount(type_t);
-    int getHands() { return hands_; }
-    bool allHandsFound();
+    int getHands() { return hands_; }   
+	bool oneHandFound();
 
     //printing
     void printHeader();
     void printFooter(int numProcs);
-    void printHands();
-    void printHistogram();
+    void printHands();   
 
     std::string typeToString(type_t);
 

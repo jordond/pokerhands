@@ -5,9 +5,10 @@
 #include "mpi.h"
 using namespace std;
 
-const int MAX_MSG_SIZE = 100;
+const int MAX_MSG_SIZE = 52;
 const int TAG_DATA = 0, TAG_QUIT = 1;
 
+int handCount = 0;
 bool foundAllHands[10] = { false };
 
 //Create stat counting object, and the deck
@@ -18,7 +19,7 @@ void dispatchHands(int numProcs, int& totalHands, bool& foundAllHands)
 {
 	int msgBuff[MAX_MSG_SIZE];
 
-	// Dispatch a "wave" of SINs to the slaves
+	// Dispatch a "wave" of hands to the slaves
 	int numToSend = MAX_MSG_SIZE;
 	for (int p = 1; p < numProcs; ++p)
 	{
@@ -56,26 +57,24 @@ void checkMessagesFromSlaves(int& activeSlaveCount)
 {
 	static int msgBuff, recvFlag;
 	MPI_Status status;
-	static MPI_Request request;
 
-	if (request)
+	// Test to see of a message has "come in"
+	MPI_Iprobe(MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &recvFlag, &status);
+
+
+	if (recvFlag)
 	{
-		// Test to see of a message has "come in"
-		MPI_Test(&request, &recvFlag, &status);
+		// Message is waiting to be received
+		MPI_Recv(&msgBuff, 1, MPI_INT, MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
 
 		if (recvFlag)
-		{
+		{			
 			// Message has "come in"
-			if (status.MPI_TAG == TAG_DATA)
-				// Invalid SIN
-				cout << "\t** Valid Hand: " << msgBuff << " found by process "
-				<< status.MPI_SOURCE << endl;
-			else
-				// Slave is quitting
-				--activeSlaveCount;
-
-			// Reset the request handle to "false"
-			request = 0;
+			if (status.MPI_TAG == TAG_DATA){
+				foundAllHands[handCount] = true;				
+				handCount++;
+			}
+			
 		}
 	}
 
@@ -90,11 +89,11 @@ void processMaster(int numProcs)
 	int totalHands = 0;
 	int activeSlaveCount = numProcs - 1;
 
-	//Start the timer 
-	s.start();
-
 	// main loop while there are any slaves still "active"
 	bool deadSlaves = false;
+
+	//Start the timer 
+	s.start();
 
 	do {
 		Hand h = d.dealHand();
@@ -102,27 +101,32 @@ void processMaster(int numProcs)
 		//Increment the stats object with the found hand
 		s.increment(h.type());
 
-	} while (!s.allHandsFound());
+		// Checks for a message from any slave(NON - BLOCKING)
+		checkMessagesFromSlaves(activeSlaveCount);
+		
+		if (s.oneHandFound()){
+			foundAllHands[handCount] = true;			
+			handCount++;
+		}
+
+		//send message to slaves about hand
+		dispatchHands(numProcs, totalHands, foundAllHands[handCount]);
+
+	} while (handCount != 10);
 
 	//Stop the timer and print the information
 	s.stop();
 	s.printHands();
 	s.printFooter(numProcs);
 
+
+
 	if (!deadSlaves){
 		terminateSlaves(numProcs);
 		deadSlaves = true;
 	}
-
-
-	//send message to slaves about hand
-	dispatchHands(numProcs, totalHands, foundAllHands[10]);
-
-	// Checks for a message from any slave(NON - BLOCKING)
-	checkMessagesFromSlaves(activeSlaveCount);
-
+	
 }//processMaster
-
 
 void processSlave(int rank){
 
@@ -131,6 +135,8 @@ void processSlave(int rank){
 	MPI_Status status;
 	MPI_Request request;
 	int numRecv;
+
+	//Hand Variables
 	Hand h;
 
 	// main loop until a TERMINATE message is received
@@ -142,29 +148,21 @@ void processSlave(int rank){
 		// IF it's a DATA message
 		if (status.MPI_TAG == TAG_DATA)
 		{
-			do {
-				Hand h = d.dealHand();
-
-				//Increment the stats object with the found hand
-				//s.increment(h.type());
-
-			} while (!s.allHandsFound());
-
 			MPI_Get_count(&status, MPI_INT, &numRecv);
+			for (int i = 0; i < numRecv; ++i)
+			{
+				do {
+					Hand h = d.dealHand();
 
-			//Check hand in the message buffer
-			for (int i = 0; i < numRecv; ++i){
+					//Increment the stats object with the found hand
+					s.increment(h.type());
 
-				//for each valid hand...
-				if (h.set(msgBuff[i])){
-					MPI_Isend(&msgBuff[i], 1, MPI_INT, 0, TAG_DATA, MPI_COMM_WORLD, &request);
-				}
-				else
-					foundAllHands[i] = true;
+					if (s.oneHandFound()){
+						MPI_Isend(&msgBuff[i], 1, MPI_INT, 0, TAG_DATA, MPI_COMM_WORLD, &request);
+					}
 
+				} while (handCount != 10);
 			}
-
-
 
 		}
 		//ELSE
@@ -255,10 +253,10 @@ void debugVariableHands() {
 		std::cout << "Average time per hand:\t" << totaltime / t.size() << std::endl;
 		std::cout << "Total time:\t" << totaltime << std::endl;
 
-		if (s.allHandsFound())
+		/*if (s.allHandsFound())
 			std::cout << "All hands have been found.\n" << std::endl;
 		else
-			std::cout << "Missing some hands, luck is not in your favor.\n" << std::endl;
+			std::cout << "Missing some hands, luck is not in your favor.\n" << std::endl;*/
 	} while (count > 0);
 }
 void debug250000Hands() {
@@ -270,10 +268,10 @@ void debug250000Hands() {
 		s.increment(h.type());
 	}
 	s.printHands();
-	if (s.allHandsFound())
+	/*if (s.allHandsFound())
 		std::cout << "All hands have been found." << std::endl;
 	else
-		std::cout << "Missing some hands, luck is not in your favor." << std::endl;
+		std::cout << "Missing some hands, luck is not in your favor." << std::endl;*/
 }
 void debugFindAllHands() {
 	Deck d;
@@ -285,7 +283,7 @@ void debugFindAllHands() {
 		Hand h = d.dealHand();
 		s.increment(h.type());
 		count++;
-	} while (!s.allHandsFound());
+	} while (handCount < 10);
 	s.stop();
 	s.printHands();
 	s.printFooter(0);
