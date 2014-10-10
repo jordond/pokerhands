@@ -1,59 +1,62 @@
 #include "stats.h"
 
-Stats::Stats() : hands_(0), version_("PARALLEL") {
-}
+Stats::Stats() : hands_(0), version_("PARALLEL") {}
 
 Stats::~Stats() {}
 
+//Start the clock
 void Stats::start() {
     begin_ = clock();
 }
 
+//Stop the clock
 void Stats::stop() {
     end_ = clock();
 }
 
+//Reset the clock
 void Stats::reset() {
     begin_ = 0;
     end_ = 0;
 }
 
+//Return the elapsed time in seconds
 double Stats::getClock() {
     return double(end_ - begin_) / CLOCKS_PER_SEC;
 }
 
+//Increment a single hand type
 void Stats::increment(int t) {
     std::string k = typeToString(t);
     stats_[k]++; //update or add
     hands_++;
 }
 
+//Increment multiple hands of the same type
 void Stats::increment(int t, int n) {
     std::string k = typeToString(t);
     stats_[k] += n;
     hands_ += n;
 }
 
+//Return the number of hands of a specific type
 int Stats::getTypeCount(int t) {
     std::string k = typeToString(t);
     if (stats_.find(k) == stats_.end()) {
-        return -1;
+        return -1; // hand type wasn't found
     }
     else {
         return stats_[k];
     }
 }
 
-int Stats::test() {
-    return stats_.size();
-}
-
+//Return true if all the hand types have been found
 bool Stats::allHandsFound() {
     int c = stats_.size();
-    if (stats_.find("Invalid") != stats_.end()) {
+    if (stats_.find("Invalid") != stats_.end()) { //if a invalid hand is in the map than decrement the count
         c--;
     }
-    if (c == 8) { //10 for royalflush, 9 quicker debug
+    if (c == 10) { //10 for royalflush, 9 quicker debug
         return true;
     }
     return false;
@@ -64,6 +67,7 @@ void Stats::printHeader() {
     std::cout << "=====================================================" << std::endl;
 }
 
+//Take the map and reverse it so royal flush is at the bottom
 void Stats::printHands() {
     std::cout << "Hand Type" << "\t\tFrequency" << "\tRelative (%)" << std::endl;
     std::map<int, std::string> sorted;
@@ -103,7 +107,7 @@ std::string Stats::typeToString(int t) {
     case Hand::FullHouse:
         return "Full House";
     case Hand::Flush:
-        return "Flush";
+        return "Flush\t";
     case Hand::Straight:
         return "Straight";
     case Hand::ThreeKind:

@@ -11,34 +11,27 @@
 
 class Deck {
 private:
-    std::vector<Card> cards_;
+    std::vector<Card> cards_;                           // Container that holds all the cards - 52
 
-    static const int MAX_DECK_SIZE = 52;
-    int size_;
-    int decks_;
+    static const int MAX_DECK_SIZE = 52;                // Constant for the size of the deck
+    int size_;                                          // The current number of cards in deck
+    int decks_;                                         // The number of decks drawn
 
 public:
-    Deck();
+    Deck();                                             // Default constructor
     ~Deck();
 
-    void create();
-    std::vector<Card> getDeck() { return cards_; }
+    void create();                                      // Create a new vector with all of the cards
+    std::vector<Card> getDeck() { return cards_; }      // Returns the deck container
 
-    // Shuffles the deck of cards
-    void shuffle();
+    void shuffle();                                     // Shuffle the deck of cards
 
-    std::vector<Card> dealHand();
+    std::vector<Card> dealHand();                       // Deal a new hand of Card::HAND_SIZE cards
 
-    // Obtain the current number of cards in the deck.
-    // Returns: int - size of deck
-    int getDeckSize() { return size_; }
+    int getDeckSize() { return size_; }                 // Returns the current size of the deck
+    int getDecks() { return decks_; }                   // Returns the number of decks drawn - not used
 
-    int getDecks() { return decks_; }
-
-    // Draw a card from the top of the deck, and remove it
-    // from the deck.
-    // Returns: Card - card on the top of deck
-    Card draw();
+    Card draw();                                        // Draw a new card off the top of the deck
 };
 
 #endif

@@ -1,50 +1,36 @@
 #include "hand.h"
 
+//Insantiate a default hand with a none type
 Hand::Hand() : type_(Hand::None) {}
 
+//Create a new hand from a vector of cards
 Hand::Hand(std::vector<Card> c) : type_(Hand::None) {
     for (size_t i = 0; i < c.size(); ++i) {
         Hand::add(c[i]);
     }
-    Hand::analyze();
+    Hand::analyze(); // get the type of the hand
 }
 
-Hand::Hand(std::string h) : type_(Hand::None) {
-    std::string ranks, suits;
-    ranks = "A2345678910JQK";
-    suits = "DHCS";
-    std::vector<std::string> hand;
-    std::transform(h.begin(), h.end(), h.begin(), toupper); 
-    std::istringstream i(h);
-    std::copy(std::istream_iterator<std::string>(i), std::istream_iterator<std::string>(), std::back_inserter<std::vector<std::string> >(hand));
-    std::vector<std::string>::iterator it = hand.begin();
-    std::sort(it, hand.end());
-    while (it != hand.end())
-    {
-        int r = ranks.find((*it).at(1)) + 1;    //ranks start at 1 
-        int s = suits.find((*it).at(0));        //suits start at 0
-        hand_.push_back(Card(s, r));
-        it++;
-    }
-    for (size_t i = 0; i < hand_.size(); ++i) {
-        if (!hand_[i].valid()) {
-            hand_.clear();
-            break;
-        }
+//To be used in taking a user input and converting it to a hand
+Hand::Hand(std::string s) : type_(Hand::None) {
+    if (s.length() == Card::HAND_SIZE * 2) {
+        //todo
     }
 }
 
 Hand::~Hand() {}
 
+//Add a card to the hand container
 void Hand::add(Card c) {
     hand_.push_back(c);
 }
 
+//Analyse the hand to figure out which kind of hand it is
 Hand::HandType Hand::analyze() {
     bool pair = false, pair2 = false, three = false, four = false, flush = false, strt = false, rflush = false;
     int rank[14] = {0}; //13 ranks, low + high ace = 14
     int suit[4] = {0};
-    for (std::vector<Card>::iterator it = hand_.begin(); it != hand_.end(); ++it) {
+    for (std::vector<Card>::iterator it = hand_.begin(); it != hand_.end(); ++it) { // fill them buckets
         rank[it->rank() - 1]++; // rank starts at 1 not 0
         suit[it->suit()]++;
     }
@@ -105,6 +91,7 @@ Hand::HandType Hand::analyze() {
     return type_ = Hand::HighCard;
 }
 
+//Take the numerical values and make it somewhat readable, used in testing
 std::string Hand::readable() {
     std::stringstream ss;
     for (std::vector<Card>::iterator it = hand_.begin(); it != hand_.end(); ++it) {
