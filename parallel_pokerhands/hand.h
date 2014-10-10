@@ -1,3 +1,14 @@
+/*
+Program:		parallel_pokerhands.exe
+Module:			hand.h
+Author:			Jordon de Hoog, Jon Decher
+Date:			Sept 30, 2014
+Description:	The hand object does most of the heavy lifting for this project.
+                It is created usually with a vector of cards, then work is done on 
+                that container.  The hand is analysed and given a value from the enum
+                HandType.
+*/
+
 #ifndef HAND_H
 #define HAND_H
 

@@ -1,3 +1,16 @@
+/*
+Program:		parallel_pokerhands.exe
+Module:			deck.h
+Author:			Jordon de Hoog, Jon Decher
+Date:			Sept 30, 2014
+Description:	The deck object has a container of 52 card objects which represent a 
+                standard deck of cards.  This object has functions that are called to  
+                create a new deck, and to draw cards from the deck.  It also can draw 
+                a hand which contains the max number of cards for the hand which is defined
+                in the Card object.  All references to the Hand object were specifically left
+                out of the deck object for interoperability. 
+*/
+
 #ifndef DECK_H
 #define DECK_H
 

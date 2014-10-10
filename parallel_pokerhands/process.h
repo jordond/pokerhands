@@ -1,3 +1,14 @@
+/*
+Program:		parallel_pokerhands.exe
+Module:			process.h
+Author:			Jordon de Hoog, Jon Decher
+Date:			Sept 30, 2014
+Description:	The Process object contains all of the work to be done by the MPI architecture.
+                The original plan was to encapsulate it out a bit, however that was deemed unnecessary.
+                This object is either called by the master or slave process, and the master will keep 
+                track of all the hands drawn by the other processes.
+*/
+
 #ifndef PROCESS_H
 #define PROCESS_H
 

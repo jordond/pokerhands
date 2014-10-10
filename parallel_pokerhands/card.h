@@ -1,3 +1,12 @@
+/*
+Program:		parallel_pokerhands.exe
+Module:			card.h
+Author:			Jordon de Hoog, Jon Decher
+Date:			Sept 30, 2014
+Description:	The card object holds all the data and functions relevant to the card.
+                It is used to recognize suits and ranks, and used for the Deck and hand objects.
+*/
+
 #ifndef CARD_H
 #define CARD_H
 
