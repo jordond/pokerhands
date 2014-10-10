@@ -9,28 +9,9 @@ Hand::Hand(std::vector<Card> c) : type_(Hand::None) {
     Hand::analyze();
 }
 
-Hand::Hand(std::string h) : type_(Hand::None) {
-    std::string ranks, suits;
-    ranks = "A2345678910JQK";
-    suits = "DHCS";
-    std::vector<std::string> hand;
-    std::transform(h.begin(), h.end(), h.begin(), toupper); 
-    std::istringstream i(h);
-   // std::copy(std::istream_iterator<std::string>(i), std::istream_iterator<std::string>(), std::back_inserter<std::vector<std::string> >(hand));
-    std::vector<std::string>::iterator it = hand.begin();
-    std::sort(it, hand.end());
-    while (it != hand.end())
-    {
-        int r = ranks.find((*it).at(1)) + 1;    //ranks start at 1 
-        int s = suits.find((*it).at(0));        //suits start at 0
-        hand_.push_back(Card(s, r));
-        it++;
-    }
-    for (size_t i = 0; i < hand_.size(); ++i) {
-        if (!hand_[i].valid()) {
-            hand_.clear();
-            break;
-        }
+Hand::Hand(std::string s) : type_(Hand::None) {
+    if (s.length() == Card::HAND_SIZE * 2) {
+        //todo
     }
 }
 

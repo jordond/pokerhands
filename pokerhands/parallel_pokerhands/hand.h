@@ -3,32 +3,30 @@
 
 #include <sstream>
 #include <vector>
-#include <iostream>
-#include <algorithm>
 #include "card.h"
 
 class Hand {
 public:
-    Hand();
-    Hand(std::vector<Card>);
-    Hand(std::string);
-    ~Hand();
+	Hand();
+	Hand(std::vector<Card>);
+	Hand(std::string);
+	~Hand();
 
-    enum HandType { Invalid = -2, None = -1, HighCard = 0, OnePair = 1, TwoPair = 2, ThreeKind = 3, Straight = 4, Flush = 5, FullHouse = 6, FourKind = 7, StraightFlush = 8, RoyalFlush = 9 };
+	enum HandType { Invalid = -2, None = -1, HighCard = 0, OnePair, TwoPair, ThreeKind, Straight, Flush, FullHouse, FourKind, StraightFlush, RoyalFlush };
 
-    void add(Card);
+	void add(Card);
 
-    HandType analyze();
-    std::string readable();
+	HandType analyze();
+	std::string readable();
 
-    HandType type() { return type_; }
-    void type(HandType t) { type_ = t; } //shouldn't use
-    
-    friend bool operator<(Card& lhs, Card& rhs);
+	HandType type() { return type_; }
+	void type(HandType t) { type_ = t; } //shouldn't use
+
+	friend bool operator<(Card& lhs, Card& rhs);
 
 private:
-    std::vector<Card> hand_;
-    HandType type_;
+	std::vector<Card> hand_;
+	HandType type_;
 };
 
 #endif
