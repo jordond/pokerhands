@@ -19,6 +19,8 @@ public:
     Process(int, int);
     ~Process();
 
+    int getProcs() { return procs_; }
+
     void processMaster();
     void processSlave(int);
 

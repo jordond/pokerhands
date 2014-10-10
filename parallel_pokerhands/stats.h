@@ -33,7 +33,7 @@ public:
 
     //printing
     void printHeader();
-    void printFooter();
+    void printFooter(int);
     void printHands();
     void printHistogram();
 

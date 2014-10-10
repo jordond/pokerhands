@@ -29,7 +29,7 @@ void Process::processMaster() {
 
     stats_.stop();
     stats_.printHands();
-    stats_.printFooter();
+    stats_.printFooter(procs_);
 }
 
 void Process::processSlave(int r) {
