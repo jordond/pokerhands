@@ -1,0 +1,322 @@
+#include <iostream>
+#include <string>
+#include "parallel_main.h"
+#include "parallel_stats.h"
+#include "mpi.h"
+using namespace std;
+
+const int MAX_MSG_SIZE = 52;
+const int TAG_DATA = 0, TAG_QUIT = 1;
+
+int handCount = 0;
+bool foundAllHands[10] = { false };
+
+//Create stat counting object, and the deck
+Stats s;
+Deck d;
+
+
+void dispatchHands(int numProcs, int& totalHands, int handNum)
+{
+	int msgBuff[MAX_MSG_SIZE];
+
+	// Dispatch a "wave" of hands to the slaves
+	int numToSend = MAX_MSG_SIZE;
+	for (int p = 1; p < numProcs; ++p) //numProcs
+	{
+		// Fill the message buffer
+		for (int i = 0; i < MAX_MSG_SIZE; ++i)
+		{
+
+			if (!(handNum >> msgBuff[i]))
+			{
+				numToSend = i;
+				break;
+			}
+		}
+
+		// Update the hands counter
+		totalHands += numToSend;
+
+		// Send
+		MPI_Send(msgBuff, numToSend, MPI_INT, p, TAG_DATA, MPI_COMM_WORLD);
+	}
+
+}//dispachHands
+
+
+void terminateSlaves(int numProcs)
+{
+	cout << "Terminating all processes....";
+	int msgBuff = 0;
+	for (int p = 1; p < numProcs; ++p)
+		MPI_Send(&msgBuff, 1, MPI_INT, p, TAG_QUIT, MPI_COMM_WORLD);
+	cout << "complete!" << endl;
+}//terminateSalves
+
+
+
+void checkMessagesFromSlaves(int& activeSlaveCount)
+{
+	static int msgBuff, recvFlag;
+	MPI_Status status;
+
+	// Test to see of a message has "come in"
+	MPI_Iprobe(MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &recvFlag, &status);
+
+
+	if (recvFlag)
+	{		
+		// Message is waiting to be received
+		MPI_Recv(&msgBuff, 1, MPI_INT, MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
+
+		if (recvFlag)
+		{
+			// Message has "come in"
+			if (status.MPI_TAG == TAG_DATA){
+				foundAllHands[handCount] = true;
+				handCount++;
+
+			}
+
+		}
+
+	}
+
+}//checkMessagesFromSlaves
+
+void processMaster(int numProcs)
+{
+	//Print message to user
+	s.printHeader();
+
+	// Declare counters
+	int totalHands = 0;
+	int activeSlaveCount = numProcs - 1;
+
+	// main loop while there are any slaves still "active"
+	bool deadSlaves = false;
+
+	//Start the timer 
+	s.start();
+
+	string msgBuff;
+
+	if (activeSlaveCount > 0){
+
+		dispatchHands(numProcs, totalHands, handCount);
+		do {
+			Hand h;
+			h = d.dealHand();
+			//Increment the stats object with the found hand
+			s.increment(h.type());
+
+			if (s.oneHandFound()){
+				
+				foundAllHands[handCount] = true;
+				handCount++;			
+
+			}
+
+			// Checks for a message from any slave(NON - BLOCKING)
+			checkMessagesFromSlaves(activeSlaveCount);
+
+		} while (handCount != 10);
+	
+
+	}
+	else{
+		do {
+
+			Hand h = d.dealHand();
+			//Increment the stats object with the found hand
+			s.increment(h.type());
+
+			if (s.oneHandFound()){
+
+					foundAllHands[handCount] = true;
+					handCount++;
+				}
+
+		} while (handCount != 10);
+	}
+
+
+	//Stop the timer and print the information
+	s.stop();
+	s.printHands();
+	s.printFooter(numProcs);
+
+	if (!deadSlaves){
+		terminateSlaves(numProcs);
+		deadSlaves = true;
+	}
+
+
+
+}//processMaster
+
+void processSlave(int rank){
+
+	// Message passing variables
+	string msgBuff;
+	int numRecv;
+	MPI_Status status;
+
+	// main loop until a TERMINATE message is received
+	do
+	{
+		// Receive a message from the master
+		MPI_Recv(&msgBuff, MAX_MSG_SIZE, MPI_INT, 0, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
+		
+		//cout << msgBuff << endl;
+
+		// IF it's a DATA message
+		if (status.MPI_TAG == TAG_DATA)
+		{
+			MPI_Get_count(&status, MPI_INT, &numRecv);
+			for (int i = 0; i < numRecv; ++i)
+			{
+				do {
+				
+					Hand h = d.dealHand();
+
+					//Increment the stats object with the found hand
+					s.increment(h.type());
+
+					if (s.oneHandFound()){
+						handCount++;
+						msgBuff = 1;
+						
+						MPI_Send(&msgBuff, MAX_MSG_SIZE, MPI_INT, 0, TAG_DATA, MPI_COMM_WORLD);
+					
+					}				
+
+				} while (handCount != 10);
+			}
+
+		}	
+		else
+		// Sends a DONE message to the master
+		MPI_Send(&msgBuff, 1, MPI_INT, 0, TAG_QUIT, MPI_COMM_WORLD);
+
+	} while (status.MPI_TAG != TAG_QUIT);
+
+}//processSlave
+
+
+int main(int argc, char* argv[]) {
+
+	if (MPI_Init(&argc, &argv) == MPI_SUCCESS){
+
+		int rank, numProcs;
+		//*******get number of processes from cmdline
+		MPI_Comm_size(MPI_COMM_WORLD, &numProcs);
+		MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+
+		if (rank == 0)
+			processMaster(numProcs);
+		else
+			processSlave(rank);
+
+
+	}
+	else
+		cerr << "Error: invalid input." << endl;
+
+
+	MPI_Finalize();
+
+	//debugHandType(); // deprecated see Hand.cpp line 5
+	//debugVariableHands();
+	//debug250000Hands();
+	//debugFindAllHands();
+
+}
+
+
+void debugHandType() {
+	////DEBUG
+	Deck d;
+	Stats s;
+	int hands_ = 0;
+
+	std::string cards;
+	do {
+		std::cout << "Suit: Diamond0, Hearts1, Club2, Spade3" << std::endl;
+		std::cout << "Rank: Ace0/a, 1-10, Jack11/j, Queen12/q, King13/k, Ace14/a" << std::endl;
+		std::cout << "Enter hand (" << Card::HAND_SIZE << ") cards - 0 to quit:";
+		std::cin >> cards;
+
+		Hand h = cards;
+
+		if (h.type() != Hand::None) {
+			std::cout << "Hand entered: " << cards;
+			std::cout << "Hand parsed: " << h.readable();
+			std::cout << "Hand type: " << h.type();
+		}
+	} while (cards != "0");
+
+	std::cout << "Hands Drawn: " << hands_ << " Decks drawn: " << d.getDecks() << std::endl;
+}
+void debugVariableHands() {
+	int count = 0;
+	do {
+		count = 0;
+		std::cout << "Enter number of hands (0 to quit): ";
+		std::cin >> count;
+		std::vector<double> t;
+
+		Deck d;
+		Stats s;
+		for (int i = 0; i <= count; ++i) {
+			s.start();
+			Hand h = d.dealHand();
+			s.increment(h.type());
+			s.stop();
+			t.push_back(s.getClock());
+		}
+		s.printHands();
+
+		double totaltime = 0.0;
+		for (std::vector<double>::iterator it = t.begin(); it != t.end(); ++it) {
+			totaltime += *it;
+		}
+		std::cout << "Average time per hand:\t" << totaltime / t.size() << std::endl;
+		std::cout << "Total time:\t" << totaltime << std::endl;
+
+		/*if (s.allHandsFound())
+			std::cout << "All hands have been found.\n" << std::endl;
+			else
+			std::cout << "Missing some hands, luck is not in your favor.\n" << std::endl;*/
+	} while (count > 0);
+}
+void debug250000Hands() {
+	Deck d;
+	Stats s;
+	std::cout << "Drawing 250k hands..." << std::endl;
+	for (int i = 0; i <= 250000; ++i) {
+		Hand h = d.dealHand();
+		s.increment(h.type());
+	}
+	s.printHands();
+	/*if (s.allHandsFound())
+		std::cout << "All hands have been found." << std::endl;
+		else
+		std::cout << "Missing some hands, luck is not in your favor." << std::endl;*/
+}
+void debugFindAllHands() {
+	Deck d;
+	Stats s;
+	int count = 0;
+	s.printHeader();
+	s.start();
+	do {
+		Hand h = d.dealHand();
+		s.increment(h.type());
+		count++;
+	} while (handCount < 10);
+	s.stop();
+	s.printHands();
+	s.printFooter(0);
+}
