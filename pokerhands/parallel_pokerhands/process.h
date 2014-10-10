@@ -7,7 +7,7 @@
 
 class Process {
 private:
-    const int TAG_DATA = 1, TAG_QUIT = 2, TAG_FREQS = 3;
+    static const int TAG_DATA = 1, TAG_QUIT = 2, TAG_FREQS = 3;
     Stats stats_;
 
     int rank_;

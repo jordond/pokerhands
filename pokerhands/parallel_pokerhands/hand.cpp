@@ -16,7 +16,7 @@ Hand::Hand(std::string h) : type_(Hand::None) {
     std::vector<std::string> hand;
     std::transform(h.begin(), h.end(), h.begin(), toupper); 
     std::istringstream i(h);
-    std::copy(std::istream_iterator<std::string>(i), std::istream_iterator<std::string>(), std::back_inserter<std::vector<std::string> >(hand));
+   // std::copy(std::istream_iterator<std::string>(i), std::istream_iterator<std::string>(), std::back_inserter<std::vector<std::string> >(hand));
     std::vector<std::string>::iterator it = hand.begin();
     std::sort(it, hand.end());
     while (it != hand.end())
