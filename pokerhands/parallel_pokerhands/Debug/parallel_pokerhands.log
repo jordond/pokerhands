@@ -1,0 +1,18 @@
+﻿Build started 10/10/2014 9:41:11 AM.
+     1>Project "C:\Users\djon\Documents\CPA\Semester6\Concurrent Processing 2\pokerhands\parallel_pokerhands\parallel_pokerhands.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt parallel_main.cpp
+         parallel_main.cpp
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\djon\Documents\CPA\Semester6\Concurrent Processing 2\pokerhands\Debug\parallel_pokerhands.exe" /INCREMENTAL /NOLOGO mpi.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\djon\Documents\CPA\Semester6\Concurrent Processing 2\pokerhands\Debug\parallel_pokerhands.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\djon\Documents\CPA\Semester6\Concurrent Processing 2\pokerhands\Debug\parallel_pokerhands.lib" /MACHINE:X86 Debug\card.obj
+         Debug\deck.obj
+         Debug\hand.obj
+         Debug\parallel_main.obj
+         Debug\process.obj
+         Debug\stats.obj
+         parallel_pokerhands.vcxproj -> C:\Users\djon\Documents\CPA\Semester6\Concurrent Processing 2\pokerhands\Debug\parallel_pokerhands.exe
+     1>Done Building Project "C:\Users\djon\Documents\CPA\Semester6\Concurrent Processing 2\pokerhands\parallel_pokerhands\parallel_pokerhands.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:01.46
