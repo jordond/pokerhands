@@ -3,8 +3,6 @@
 
 #include <sstream>
 #include <vector>
-#include <iostream>
-#include <algorithm>
 #include "card.h"
 
 class Hand {
