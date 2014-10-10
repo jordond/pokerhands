@@ -15,18 +15,20 @@ bool foundAllHands[10] = { false };
 Stats s;
 Deck d;
 
-void dispatchHands(int numProcs, int& totalHands, bool& foundAllHands)
+
+void dispatchHands(int numProcs, int& totalHands, int handNum)
 {
 	int msgBuff[MAX_MSG_SIZE];
 
 	// Dispatch a "wave" of hands to the slaves
 	int numToSend = MAX_MSG_SIZE;
-	for (int p = 1; p < numProcs; ++p)
+	for (int p = 1; p < numProcs; ++p) //numProcs
 	{
 		// Fill the message buffer
 		for (int i = 0; i < MAX_MSG_SIZE; ++i)
 		{
-			if (!(foundAllHands >> msgBuff[i]))
+
+			if (!(handNum >> msgBuff[i]))
 			{
 				numToSend = i;
 				break;
@@ -45,7 +47,7 @@ void dispatchHands(int numProcs, int& totalHands, bool& foundAllHands)
 
 void terminateSlaves(int numProcs)
 {
-	cout << "Terminating all processes...." ;
+	cout << "Terminating all processes....";
 	int msgBuff = 0;
 	for (int p = 1; p < numProcs; ++p)
 		MPI_Send(&msgBuff, 1, MPI_INT, p, TAG_QUIT, MPI_COMM_WORLD);
@@ -64,19 +66,21 @@ void checkMessagesFromSlaves(int& activeSlaveCount)
 
 
 	if (recvFlag)
-	{
+	{		
 		// Message is waiting to be received
 		MPI_Recv(&msgBuff, 1, MPI_INT, MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
 
 		if (recvFlag)
-		{			
+		{
 			// Message has "come in"
 			if (status.MPI_TAG == TAG_DATA){
-				foundAllHands[handCount] = true;				
+				foundAllHands[handCount] = true;
 				handCount++;
+
 			}
-			
+
 		}
+
 	}
 
 }//checkMessagesFromSlaves
@@ -96,26 +100,47 @@ void processMaster(int numProcs)
 	//Start the timer 
 	s.start();
 
-	//do {
-	for (int i = 0; i <= 250000; ++i) {
-		Hand h = d.dealHand();
+	string msgBuff;
 
-		//Increment the stats object with the found hand
-		s.increment(h.type());
-		//debug250000Hands();
+	if (activeSlaveCount > 0){
 
-		// Checks for a message from any slave(NON - BLOCKING)
-		checkMessagesFromSlaves(activeSlaveCount);
+		dispatchHands(numProcs, totalHands, handCount);
+		do {
+			Hand h;
+			h = d.dealHand();
+			//Increment the stats object with the found hand
+			s.increment(h.type());
 
-		if (s.oneHandFound()){
-			foundAllHands[handCount] = true;
-			handCount++;
-		}
+			if (s.oneHandFound()){
+				
+				foundAllHands[handCount] = true;
+				handCount++;			
 
-		//send message to slaves about hand
-		dispatchHands(numProcs, totalHands, foundAllHands[handCount]);
+			}
+
+			// Checks for a message from any slave(NON - BLOCKING)
+			checkMessagesFromSlaves(activeSlaveCount);
+
+		} while (handCount != 10);
+	
+
 	}
-	//} while (handCount != 10);
+	else{
+		do {
+
+			Hand h = d.dealHand();
+			//Increment the stats object with the found hand
+			s.increment(h.type());
+
+			if (s.oneHandFound()){
+
+					foundAllHands[handCount] = true;
+					handCount++;
+				}
+
+		} while (handCount != 10);
+	}
+
 
 	//Stop the timer and print the information
 	s.stop();
@@ -126,25 +151,25 @@ void processMaster(int numProcs)
 		terminateSlaves(numProcs);
 		deadSlaves = true;
 	}
-	
+
+
+
 }//processMaster
 
 void processSlave(int rank){
 
 	// Message passing variables
-	int msgBuff[MAX_MSG_SIZE];
-	MPI_Status status;
-	MPI_Request request;
+	string msgBuff;
 	int numRecv;
-
-	//Hand Variables
-	Hand h;
+	MPI_Status status;
 
 	// main loop until a TERMINATE message is received
 	do
 	{
 		// Receive a message from the master
-		MPI_Recv(msgBuff, MAX_MSG_SIZE, MPI_INT, 0, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
+		MPI_Recv(&msgBuff, MAX_MSG_SIZE, MPI_INT, 0, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
+		
+		//cout << msgBuff << endl;
 
 		// IF it's a DATA message
 		if (status.MPI_TAG == TAG_DATA)
@@ -152,31 +177,35 @@ void processSlave(int rank){
 			MPI_Get_count(&status, MPI_INT, &numRecv);
 			for (int i = 0; i < numRecv; ++i)
 			{
-				//do {
-				for (int i = 0; i <= 250000; ++i) {
+				do {
+				
 					Hand h = d.dealHand();
 
 					//Increment the stats object with the found hand
-					s.increment(h.type());					
+					s.increment(h.type());
 
 					if (s.oneHandFound()){
-						MPI_Isend(&msgBuff[i], 1, MPI_INT, 0, TAG_DATA, MPI_COMM_WORLD, &request);
-					}
-				}
+						handCount++;
+						msgBuff = 1;
+						
+						MPI_Send(&msgBuff, MAX_MSG_SIZE, MPI_INT, 0, TAG_DATA, MPI_COMM_WORLD);
+					
+					}				
 
-				//} while (handCount != 10);
+				} while (handCount != 10);
 			}
 
-		}
-		//ELSE
+		}	
 		else
-			// Sends a DONE message to the master
-			MPI_Send(&msgBuff[0], 1, MPI_INT, 0, TAG_QUIT, MPI_COMM_WORLD);
+		// Sends a DONE message to the master
+		MPI_Send(&msgBuff, 1, MPI_INT, 0, TAG_QUIT, MPI_COMM_WORLD);
 
 	} while (status.MPI_TAG != TAG_QUIT);
+
 }//processSlave
 
-int main(int argc, char* argv[]) { //int argc, char* argv[]
+
+int main(int argc, char* argv[]) {
 
 	if (MPI_Init(&argc, &argv) == MPI_SUCCESS){
 
@@ -258,7 +287,7 @@ void debugVariableHands() {
 
 		/*if (s.allHandsFound())
 			std::cout << "All hands have been found.\n" << std::endl;
-		else
+			else
 			std::cout << "Missing some hands, luck is not in your favor.\n" << std::endl;*/
 	} while (count > 0);
 }
@@ -273,7 +302,7 @@ void debug250000Hands() {
 	s.printHands();
 	/*if (s.allHandsFound())
 		std::cout << "All hands have been found." << std::endl;
-	else
+		else
 		std::cout << "Missing some hands, luck is not in your favor." << std::endl;*/
 }
 void debugFindAllHands() {

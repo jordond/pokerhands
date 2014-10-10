@@ -100,7 +100,3 @@ bool operator<(Card& lhs, Card& rhs) {
     return lhs.rank() < rhs.rank();
 }
 
-bool Hand::set(int vh){
-	validHand_ = vh;
-	return analyze();
-}
