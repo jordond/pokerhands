@@ -1,6 +1,7 @@
 #include "serial_main.h"
 
 int main() {
+    debugHandType();
     //Create stat counting object, and the deck
     Stats s;
     Deck d;
@@ -47,9 +48,9 @@ void debugHandType() {
         Hand h = cards;
 
         if (h.type() != Hand::None) {
-            std::cout << "Hand entered: " << cards;
-            std::cout << "Hand parsed: " << h.readable();
-            std::cout << "Hand type: " << h.type();
+            std::cout << "Hand entered: " << cards << std::endl;
+            std::cout << "Hand parsed: " << h.readable() << std::endl;
+            std::cout << "Hand type: " << h.type() << std::endl;
         }
     } while (cards != "0");
     

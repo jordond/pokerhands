@@ -14,7 +14,7 @@ public:
     Hand(std::string);
     ~Hand();
 
-    enum HandType { Invalid = -2, None = -1, HighCard = 0, OnePair, TwoPair, ThreeKind, Straight, Flush, FullHouse, FourKind, StraightFlush, RoyalFlush };
+    enum HandType { Invalid = -2, None = -1, HighCard = 0, OnePair = 1, TwoPair = 2, ThreeKind = 3, Straight = 4, Flush = 5, FullHouse = 6, FourKind = 7, StraightFlush = 8, RoyalFlush = 9 };
 
     void add(Card);
 
