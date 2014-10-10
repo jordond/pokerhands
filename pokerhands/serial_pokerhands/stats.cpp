@@ -56,6 +56,7 @@ void Stats::printHeader() {
 
 void Stats::printHands() {
     std::cout << "Hand Type" << "\t\tFrequency" << "\tRelative (%)" << std::endl;
+	std::cout << "-----------------------------------------------------" << std::endl;
     std::map<int, std::string> sorted;
     for (std::map<std::string, int>::iterator m = stats_.begin(); m != stats_.end(); ++m) {
         sorted[m->second] = m->first;

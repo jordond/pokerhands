@@ -66,6 +66,7 @@ void Stats::printHeader() {
 
 void Stats::printHands() {
     std::cout << "Hand Type" << "\t\tFrequency" << "\tRelative (%)" << std::endl;
+	std::cout << "-----------------------------------------------------" << std::endl;
     std::map<int, std::string> sorted;
     for (std::map<std::string, int>::iterator m = stats_.begin(); m != stats_.end(); ++m) {
         sorted[m->second] = m->first;
@@ -77,13 +78,12 @@ void Stats::printHands() {
     }
 }
 
-void Stats::printFooter(double elapsedTime, int procs) {
+void Stats::printFooter( int procs) {
     std::cout << "-----------------------------------------------------" << std::endl;
     std::cout << std::setprecision(3) << std::fixed;
     std::cout << "Hands Generated:\t" << hands_ << std::endl;
     std::cout << "Decks Drawn:\t\t" << hands_ / 10.0 << std::endl;
-    //std::cout << "Elapsed Time:\t\t" << getClock() << "s" << std::endl;
-	std::cout << "Elapsed Time:\t\t" << elapsedTime << "s" << std::endl;
+    std::cout << "Elapsed Time:\t\t" << getClock() << "s" << std::endl;	
 	if (version_ == "PARALLEL")
         std::cout << "Number of Processes:\t" << procs << std::endl;
     std::cout << "-----------------------------------------------------" << std::endl;

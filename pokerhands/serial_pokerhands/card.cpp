@@ -7,14 +7,6 @@ Card::Card() : suit_(-1), rank_(-1) {}
 
 Card::Card(int s, int r) : suit_(s), rank_(r) {}
 
-bool Card::valid() {
-    if (rank_ >= 0 && rank_ <= 13 &&
-        suit_ >= 0 && suit_ <= 3) {
-        return true;
-    }
-    return false;
-}
-
 int Card::suit() {
     return suit_;
 }
