@@ -15,14 +15,17 @@ void Process::processMaster() {
     stats_.printHeader();
     stats_.start();
 
-    while (!stats_.allHandsFound() && active_ > 0) {
+    while (!stats_.allHandsFound()) {
         Hand h = d.dealHand();
         stats_.increment(h.type());
 
         checkMessages();
     }
-    std::cout << "TRYING TO TERMINATE" << std::endl;
     terminateSlaves();
+
+    while (active_ > 0) {
+        checkMessages();
+    }
 
     stats_.stop();
     stats_.printHands();
@@ -37,7 +40,7 @@ void Process::processSlave(int r) {
     MPI_Status status;
     MPI_Request request;
 
-    while (!flag && !s.allHandsFound()) {
+    while (!s.allHandsFound() && !flag) {
         MPI_Iprobe(MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &flag, &status);
 
         Hand h = d.dealHand();
@@ -51,7 +54,6 @@ void Process::processSlave(int r) {
     int test = 0;
     MPI_Send(&test, 1, MPI_INT, 0, TAG_QUIT, MPI_COMM_WORLD);
 
-    std::cout << "Rank " << r << " is terminating." << std::endl;
     int hands[10];
     for (int i = 0; i < 10; ++i) {
         hands[i] = s.getTypeCount(i);
@@ -87,8 +89,11 @@ void Process::recieveStats(int s) {
     int hands[10];
     MPI_Recv(hands, 10, MPI_INT, s, TAG_FREQS, MPI_COMM_WORLD, &status);
 
-    for (int i = 0; i < 10; ++i) {
-        stats_.increment(i, hands[i]);
+    for (int i = 0; i < 10; ++i) {        
+        if (hands[i] != -1) {
+            std::cout << "Increment handtype: " << i << ", with value = " << hands[i] << std::endl;
+            stats_.increment(i, hands[i]);
+        }
     }
 }
 
