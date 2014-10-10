@@ -18,7 +18,7 @@ Description:	The Process object contains all of the work to be done by the MPI a
 
 class Process {
 private:
-    const int TAG_DATA = 1, TAG_QUIT = 2, TAG_FREQS = 3;    // The different TAG values
+    static const int TAG_DATA = 1, TAG_QUIT = 2, TAG_FREQS = 3;    // The different TAG values
     Stats stats_;                                           // Stats container object
 
     int rank_;                                              // Current rank of the process
